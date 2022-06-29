@@ -1,27 +1,23 @@
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import TopBar from 'components/TopBar'
 import ismobilejs from 'ismobilejs'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from 'views/Home'
+import { Route, Routes } from 'react-router-dom'
 
-const theme = extendTheme({
-  config: {
-    useSystemColorMode: true,
-    initialColorMode: 'dark',
-  },
-})
+import Dashboard from 'views/Dashboard'
+import Events from 'views/Event'
+import Home from 'views/Home'
 
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
 
   if (isMobile) {
     return (
-      <ChakraProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </BrowserRouter>
-      </ChakraProvider>
+      <Routes>
+        <Route path="/" element={<TopBar />}>
+          <Route index element={<Home />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="events" element={<Events />} />
+        </Route>
+      </Routes>
     )
   }
 
