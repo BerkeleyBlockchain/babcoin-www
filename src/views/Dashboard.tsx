@@ -18,24 +18,24 @@ const Dashboard = (props: Props) => {
   return (
     <Flex flexDirection="column" left="16px" position="absolute" right="16px">
       <Box py={4}>
-        <Heading as="h1" size="xl" textAlign="center">
+        <Heading as="h1" size="4xl" textAlign="center">
           Membership
         </Heading>
       </Box>
       {/* Create a progress bar with title Clubcensus */}
-      <Box textAlign="center" py={4}>
+      <Box textAlign="center" py={4} mx={4}>
         <Text fontSize="sm" mb={2} textAlign="left">
           Clubcensus
         </Text>
         <Progress colorScheme="merkleMango" value={80} borderRadius={7.5} />
       </Box>
-      <Box textAlign="center" py={4}>
+      <Box textAlign="center" py={4} mx={4}>
         <Text fontSize="sm" mb={2} textAlign="left">
           Clubcensus 2
         </Text>
         <Progress colorScheme="merkleMango" value={50} borderRadius={7.5} />
       </Box>
-      <Box textAlign="center" py={4}>
+      <Box textAlign="center" py={4} mx={4}>
         <Text fontSize="sm" mb={2} textAlign="left">
           Clubcensus 3
         </Text>
@@ -43,11 +43,11 @@ const Dashboard = (props: Props) => {
       </Box>
 
       <Box py={4}>
-        <Heading as="h1" size="xl" textAlign="center">
+        <Heading as="h1" size="4xl" textAlign="center">
           Attendance
         </Heading>
       </Box>
-      <HStack spacing="24px" py={4}>
+      <HStack spacing="24px" py={4} mx={4}>
         <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
         <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
         <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
