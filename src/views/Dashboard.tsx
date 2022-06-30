@@ -7,7 +7,6 @@ import {
   Image,
   HStack,
   Progress,
-  extendTheme,
 } from '@chakra-ui/react'
 
 type Props = {}
@@ -25,16 +24,22 @@ const Dashboard = (props: Props) => {
       </Box>
       {/* Create a progress bar with title Clubcensus */}
       <Box textAlign="center" py={4}>
-        <Text fontSize="sm">Clubcensus</Text>
-        <Progress colorScheme="yellow" value={80} />
+        <Text fontSize="sm" mb={2} textAlign="left">
+          Clubcensus
+        </Text>
+        <Progress colorScheme="merkleMango" value={80} borderRadius={7.5} />
       </Box>
       <Box textAlign="center" py={4}>
-        <Text fontSize="sm">Clubcensus 2 </Text>
-        <Progress colorScheme="yellow" value={50} />
+        <Text fontSize="sm" mb={2} textAlign="left">
+          Clubcensus 2
+        </Text>
+        <Progress colorScheme="merkleMango" value={50} borderRadius={7.5} />
       </Box>
       <Box textAlign="center" py={4}>
-        <Text fontSize="sm">Clubcensus 3</Text>
-        <Progress colorScheme="yellow" value={30} />
+        <Text fontSize="sm" mb={2} textAlign="left">
+          Clubcensus 3
+        </Text>
+        <Progress colorScheme="merkleMango" value={30} borderRadius={7.5} />
       </Box>
 
       <Box py={4}>
@@ -43,10 +48,10 @@ const Dashboard = (props: Props) => {
         </Heading>
       </Box>
       <HStack spacing="24px" py={4}>
-        <Image boxSize="200px" objectFit="cover" src={babCardUrl} />
-        <Image boxSize="200px" objectFit="cover" src={babCardUrl} />
-        <Image boxSize="200px" objectFit="cover" src={babCardUrl} />
-        <Image boxSize="200px" objectFit="cover" src={babCardUrl} />
+        <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
+        <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
+        <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
+        <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
       </HStack>
       <Stack
         justify="space-between"
