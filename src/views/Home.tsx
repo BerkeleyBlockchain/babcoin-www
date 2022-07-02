@@ -1,6 +1,9 @@
 import { Flex } from '@chakra-ui/react'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 type Props = {}
+
+
 
 const Home = (props: Props) => {
   return (
@@ -12,6 +15,7 @@ const Home = (props: Props) => {
       top="84px"
     >
       Home
+      <ConnectButton />
     </Flex>
   )
 }
