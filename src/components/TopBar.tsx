@@ -6,23 +6,10 @@ import { ReactNode } from 'react';
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
-  Link,
   IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
-  useColorModeValue,
-  Stack,
-  Icon,
-  Spacer,
   CloseButton,
-  AbsoluteCenter,
 } from '@chakra-ui/react';
 
 
@@ -39,6 +26,14 @@ export const CircleIcon = createIcon({
     <path
       d="M147.5 724.5C60.4724 665.774 13 583 0.363159 499.5V0H472V758.322C407.988 771.319 253.115 795.768 147.5 724.5Z"
       fill="#FECB33" />
+  ),
+})
+
+export const SmallCircleIcon = createIcon({
+  displayName: 'SmallCircleIcon',
+  viewBox: '0 0 68 68',
+  path: (
+    <circle cx="34" cy="34" r="34" fill="#FECB33"/>
   ),
 })
 
@@ -73,12 +68,35 @@ const TopBar = (props: Props) => {
       </Box>
      
         <Box>
-          {isOpen ? (<CircleIcon boxSize={550} position="absolute">
+        {isOpen ? (<CircleIcon
+          boxSize={750}
+          position="fixed"
+          top={0}
+          width= "100%">
           </CircleIcon>) : <></>}
         </Box>
-        <Box>
-          {isOpen ? <CloseButton size='md' color='white' />: <></>}
-        </Box>
+        
+      <Box>
+        {isOpen ? <CloseButton
+          size='md'
+          color='white'
+          onClick={isOpen ? onClose : onOpen}
+          position="fixed"
+          bottom="40px"
+          width="100%"
+          zIndex={1}
+        /> : <></>}
+      </Box>
+      <Box>
+        {isOpen ? <SmallCircleIcon
+          position="fixed"
+          bottom="40px"
+          width="100%"
+          boxSize={50}
+          justifyContent = "center"
+        /> : <></>
+        }
+      </Box>
         
       <Outlet/>
     </>
