@@ -27,6 +27,7 @@ export const App = () => {
       target="_blank"
       rel="noreferrer"
     >
+      <TopBar/>
       switch to mobile mode! (and refresh)
     </a>
   )

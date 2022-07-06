@@ -17,7 +17,7 @@ const TopBar = (props: Props) => {
       <Box>
         <div className = "background">
           <div className= {nav ? 'semiCircle' : 'nothing'}>
-            <ul className = 'Text'>
+            <ul className = {nav ? 'Text': 'nothing'}>
               Home
               Dashboard
               Admin
@@ -26,7 +26,7 @@ const TopBar = (props: Props) => {
           </div>
 
 
-          <div className = "x" onClick={handleNav}>
+          <div className = "exitButton" onClick={handleNav}>
               {!nav ? 'nothing' : (<button className="button">x</button>)}
           </div>
          
