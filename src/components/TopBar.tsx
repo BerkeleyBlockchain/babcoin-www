@@ -20,6 +20,9 @@ import {
   useColorModeValue,
   Stack,
   Icon,
+  Spacer,
+  CloseButton,
+  AbsoluteCenter,
 } from '@chakra-ui/react';
 
 
@@ -56,7 +59,8 @@ const TopBar = (props: Props) => {
           <Flex alignItems={'center'}>
             <IconButton
                 color='white'
-                bg = 'black'
+              bg='black'
+              colorScheme = 'blackAlpha'
                 size={'md'}
                 icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
                 aria-label={'Open Menu'}
@@ -67,7 +71,15 @@ const TopBar = (props: Props) => {
           </Flex>
         </Flex>
       </Box>
-      <CircleIcon boxSize={200} />
+     
+        <Box>
+          {isOpen ? (<CircleIcon boxSize={550} position="absolute">
+          </CircleIcon>) : <></>}
+        </Box>
+        <Box>
+          {isOpen ? <CloseButton size='md' color='white' />: <></>}
+        </Box>
+        
       <Outlet/>
     </>
   );
