@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import { Button, ButtonGroup } from "@chakra-ui/react"
 
 import { ReactNode } from 'react';
 import {
@@ -59,7 +60,7 @@ const theme = extendTheme({
   },
 })
 
-const TopBar = (props: Props) => {
+const TopBarLoggedIn = (props: Props) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -69,7 +70,7 @@ const TopBar = (props: Props) => {
       <Box bg='black' px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
-            <Text>B@B</Text>
+            <Box>B@B</Box>
           </HStack>
           <Flex alignItems={'center'}>
             <IconButton
@@ -90,7 +91,7 @@ const TopBar = (props: Props) => {
         <Box>
         {isOpen ? (<CircleIcon
           boxSize={750}
-          position="fixed"
+          position="absolute"
           top={0}
           width= "100%">
           
@@ -123,7 +124,7 @@ const TopBar = (props: Props) => {
       <Box>
         {isOpen ? <Text
           zIndex={1}
-          position = "fixed"
+          position = "absolute"
           top="150px"
           right = "60px"
           color="black"
@@ -136,11 +137,30 @@ const TopBar = (props: Props) => {
         
         >
           Home
-          Dashboard
-          Admin
           Requirements
         </Text>: <></>}
-      </Box>
+          </Box>
+          
+          <Box>
+              {isOpen ? <Button
+                  colorScheme="black"
+                  color = "black"
+                  variant="outline"
+                  position = "absolute"
+                  top="330px"
+                  right="20px"
+                  width = "360px"
+                  display = "flex"
+                  fontWeight = '400'
+                  fontSize="27px"
+                  lineHeight="80px"
+                  textAlign="center"
+                  fontFamily="Inter"
+                  
+              >
+                  Connect Wallet
+              </Button> : <></>}
+        </Box>
         
       <Outlet/>
     </>
@@ -148,4 +168,4 @@ const TopBar = (props: Props) => {
 }
   
 
-export default TopBar
+export default TopBarLoggedIn
