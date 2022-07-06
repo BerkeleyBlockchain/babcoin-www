@@ -1,14 +1,44 @@
 import { Box } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import './TopBar.css'
+import { GiHamburgerMenu } from 'react-icons/gi'
+
+
 
 type Props = {}
 
 const TopBar = (props: Props) => {
+  const [nav, setNav] = useState(false)
+  const handleNav = () => setNav(!nav)
+
   return (
     <>
-      <Box backgroundColor="#fecb33" height="84px" width="100%">
-        TopBar
+      <Box>
+        <div className = "background">
+          <div className= {nav ? 'semiCircle' : 'nothing'}>
+            <ul className = 'Text'>
+              Home
+              Dashboard
+              Admin
+              Requirements
+            </ul>
+          </div>
+
+
+          <div className = "x" onClick={handleNav}>
+              {!nav ? 'nothing' : (<button className="button">x</button>)}
+          </div>
+         
+          
+          <div className="hamburger" onClick={handleNav}> 
+                {!nav ? (<GiHamburgerMenu className='icon' />) : 'nothing'}
+          </div>
+          
+
+          
+          
+        </div>
       </Box>
       <Outlet />
     </>
