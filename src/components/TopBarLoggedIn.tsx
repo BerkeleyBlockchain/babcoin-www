@@ -1,7 +1,7 @@
 
 import React from 'react'
-import { Outlet } from 'react-router-dom'
-import { Button, ButtonGroup } from "@chakra-ui/react"
+import { Link, Outlet } from 'react-router-dom'
+import { Button, ButtonGroup, ListItem, UnorderedList } from "@chakra-ui/react"
 
 import { ReactNode } from 'react';
 import {
@@ -11,7 +11,8 @@ import {
   IconButton,
   useDisclosure,
   CloseButton,
-  Text,
+    Text,
+  Image
 } from '@chakra-ui/react';
 import { Global } from "@emotion/react"
 import { extendTheme } from "@chakra-ui/react"
@@ -67,10 +68,16 @@ const TopBarLoggedIn = (props: Props) => {
 
   return (
       <>
-      <Box bg='black' px={4}>
+      <Box bg='black' px="15px" pt = "19px">
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
-            <Box>B@B</Box>
+            {!isOpen ? <Image 
+              src="./logo.png"
+              alt='B@B'
+              zIndex={2}
+              px="15px"
+  
+          /> : <></>}
           </HStack>
           <Flex alignItems={'center'}>
             <IconButton
@@ -122,9 +129,9 @@ const TopBarLoggedIn = (props: Props) => {
       </Box>
       
       <Box>
-        {isOpen ? <Text
+      {isOpen ? <UnorderedList listStyleType = "none"
           zIndex={1}
-          position = "absolute"
+          position = "fixed"
           top="150px"
           right = "60px"
           color="black"
@@ -136,9 +143,9 @@ const TopBarLoggedIn = (props: Props) => {
           maxW="300px"
         
         >
-          Home
-          Requirements
-        </Text>: <></>}
+          <Link to = "Event" ><ListItem>Home</ListItem></Link>
+          <Link to = "Requirements" ><ListItem>Requirements</ListItem></Link>
+        </UnorderedList>: <></>}
           </Box>
           
           <Box>

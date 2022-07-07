@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 import { ReactNode } from 'react';
 import {
@@ -11,9 +11,14 @@ import {
   useDisclosure,
   CloseButton,
   Text,
+  Image,
+  UnorderedList,
+  List,
+  ListItem,
 } from '@chakra-ui/react';
 import { Global } from "@emotion/react"
 import { extendTheme } from "@chakra-ui/react"
+
 
 
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
@@ -38,26 +43,17 @@ export const SmallCircleIcon = createIcon({
     <circle cx="34" cy="34" r="34" fill="#FECB33"/>
   ),
 })
+/** 
+export const BabLogo = createIcon({
+  displayName: 'BabLogo',
+  viewBox: '0 0 68 68',
+  path: (
+    <circle cx="34" cy="34" r="34" fill="#FECB33"/>
+  ),
+})
+*/
 
 type Props = {}
-
-const Fonts = () => (
-  <Global
-    styles={`
-    @font-face {
-      font-family: 'Inter';
-      src: local('Inter'),
-        url(./Inter-3.19/InterWeb/Inter-Regular.woff) format('woff');
-    }
-      `}
-  />
-)
-
-const theme = extendTheme({
-  fonts: {
-    body: "Inter",
-  },
-})
 
 const TopBar = (props: Props) => {
 
@@ -66,17 +62,25 @@ const TopBar = (props: Props) => {
 
   return (
       <>
-      <Box bg='black' px={4}>
+      <Box bg='black' px="15px" pt = "19px">
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack spacing={8} alignItems={'center'}>
-            <Text>B@B</Text>
+            {!isOpen ? <Image 
+              src="./logo.png"
+              alt='B@B'
+              zIndex={2}
+              px="15px"
+  
+          /> : <></>}
+          
           </HStack>
           <Flex alignItems={'center'}>
             <IconButton
+              size = {'lg'}
                 color='white'
               bg='black'
               colorScheme = 'blackAlpha'
-                size={'lg'}
+                
                 icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
                 aria-label={'Open Menu'}
                 display={{ md: 'none' }}
@@ -121,7 +125,7 @@ const TopBar = (props: Props) => {
       </Box>
       
       <Box>
-        {isOpen ? <Text
+        {isOpen ? <UnorderedList listStyleType = "none"
           zIndex={1}
           position = "fixed"
           top="150px"
@@ -135,11 +139,11 @@ const TopBar = (props: Props) => {
           maxW="300px"
         
         >
-          Home
-          Dashboard
-          Admin
-          Requirements
-        </Text>: <></>}
+          <Link to = "Event" ><ListItem>Home</ListItem></Link>
+          <Link to = "Dashboard" ><ListItem>Dashboard</ListItem></Link>
+          <Link to = "TopBarLoggedIn" ><ListItem>Admin</ListItem></Link>
+          <Link to = "Requirements" ><ListItem>Requirements</ListItem></Link>
+        </UnorderedList>: <></>}
       </Box>
         
       <Outlet/>
