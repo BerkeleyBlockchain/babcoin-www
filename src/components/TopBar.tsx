@@ -47,9 +47,12 @@ export const SmallCircleIcon = createIcon({
 
 
 const variants = {
-  open: { opacity: 1, x: 0 },
-  closed: { opacity: 0, x: "-100%" },
+  open: { scale: 1, opacity: 1, x: 0},
+  closed: { scale: 0, opacity: 0, x: 0},
 }
+
+
+
 
 type Props = {}
 
@@ -60,6 +63,7 @@ const TopBar = (props: Props) => {
 
   return (
     <>
+      
       {!isOpen ?
         <Box bg='black' px="15px" pt="19px">
           <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
@@ -90,10 +94,11 @@ const TopBar = (props: Props) => {
           </Flex>
         </Box> : <></>}
      
-      <Box>
+      
       <motion.nav
-      animate={isOpen ? "open" : "closed"}
-      variants={variants}
+          animate={isOpen ? "open" : "closed"}
+          transition={{ type: "Tween", stiffness: 40 }}
+      variants={variants} 
     >
       <CircleIcon
           boxSize={750}
@@ -101,12 +106,28 @@ const TopBar = (props: Props) => {
           top={0}
           width= "100%">
           
-        </CircleIcon>
-    </motion.nav>
-        </Box>
-        
-    
-      <Box>
+          </CircleIcon>
+          
+          <UnorderedList listStyleType = "none"
+          zIndex={3}
+          position = "fixed"
+          top="150px"
+          right = "60px"
+          color="black"
+          fontWeight = '600'
+          fontSize = "45px"
+          lineHeight="80px"
+          textAlign="right"
+          fontFamily="Inter"
+          maxW="300px"
+        >
+          <Link to = "Event" ><ListItem>Home</ListItem></Link>
+          <Link to = "Dashboard" ><ListItem>Dashboard</ListItem></Link>
+          <Link to = "Admin" ><ListItem>Admin</ListItem></Link>
+          <Link to = "Requirements" ><ListItem>Requirements</ListItem></Link>
+            </UnorderedList>
+            
+            <Box>
         {isOpen ? <SmallCircleIcon
           boxSize={50}
           position="fixed"
@@ -127,28 +148,13 @@ const TopBar = (props: Props) => {
           zIndex={1}
         /> : <></>}
       </Box>
+    </motion.nav>
       
-      <Box>
-        {isOpen ? <UnorderedList listStyleType = "none"
-          zIndex={1}
-          position = "fixed"
-          top="150px"
-          right = "60px"
-          color="black"
-          fontWeight = '600'
-          fontSize = "45px"
-          lineHeight="80px"
-          textAlign="right"
-          fontFamily="Inter"
-          maxW="300px"
         
-        >
-          <Link to = "Event" ><ListItem>Home</ListItem></Link>
-          <Link to = "Dashboard" ><ListItem>Dashboard</ListItem></Link>
-          <Link to = "Admin" ><ListItem>Admin</ListItem></Link>
-          <Link to = "Requirements" ><ListItem>Requirements</ListItem></Link>
-        </UnorderedList>: <></>}
-      </Box>
+    
+      
+      
+      
         
       <Outlet/>
     </>
