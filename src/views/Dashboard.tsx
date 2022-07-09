@@ -27,34 +27,36 @@ const Dashboard = (props: Props) => {
         'overflow-x': 'hidden',
       }}
     >
-      <Box py={4}>
-        <Heading as="h1" size="4xl" textAlign="center">
+      <Box pb={4}>
+        <Text fontSize="50px" fontWeight="bold" textAlign="center">
           Membership
-        </Heading>
+        </Text>
       </Box>
       {/* Create a progress bar with title Clubcensus */}
-      <Box textAlign="center" py={4} mx={4}>
-        <Text fontSize="sm" mb={2} textAlign="left">
-          Clubcensus
-        </Text>
-        <Progress colorScheme="merkleMango" value={80} borderRadius={7.5} />
+      <Box w="320px" pl="32px">
+        <Box textAlign="center" pb={15}>
+          <Text fontSize="sm" mb={2} textAlign="left">
+            Clubcensus
+          </Text>
+          <Progress colorScheme="merkleMango" value={80} borderRadius={7.5} />
+        </Box>
+        <Box textAlign="center" pb={15}>
+          <Text fontSize="sm" mb={2} textAlign="left">
+            Clubcensus 2
+          </Text>
+          <Progress colorScheme="merkleMango" value={50} borderRadius={7.5} />
+        </Box>
+        <Box textAlign="center">
+          <Text fontSize="sm" mb={2} textAlign="left">
+            Clubcensus 3
+          </Text>
+          <Progress colorScheme="merkleMango" value={30} borderRadius={7.5} />
+        </Box>
       </Box>
-      <Box textAlign="center" py={4} mx={4}>
-        <Text fontSize="sm" mb={2} textAlign="left">
-          Clubcensus 2
-        </Text>
-        <Progress colorScheme="merkleMango" value={50} borderRadius={7.5} />
-      </Box>
-      <Box textAlign="center" py={4} mx={4}>
-        <Text fontSize="sm" mb={2} textAlign="left">
-          Clubcensus 3
-        </Text>
-        <Progress colorScheme="merkleMango" value={30} borderRadius={7.5} />
-      </Box>
-      <Box py={4}>
-        <Heading as="h1" size="4xl" textAlign="center">
+      <Box pb={11}>
+        <Text fontSize="50px" fontWeight="bold" textAlign="center">
           Attendance
-        </Heading>
+        </Text>
       </Box>
       {/* Horizontally scrollable component - reference: https://stackoverflow.com/questions/65042380/how-to-add-webkit-scrollbar-pseudo-element-in-chakra-ui-element-react */}
       <Box
@@ -72,7 +74,7 @@ const Dashboard = (props: Props) => {
           },
         }}
       >
-        <HStack spacing="24px" py={4} mx={4}>
+        <HStack spacing="25px" py={4} mx={4}>
           <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
           <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
           <Image boxSize="400px" objectFit="cover" src={babCardUrl} />
