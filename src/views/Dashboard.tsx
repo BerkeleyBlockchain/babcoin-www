@@ -17,7 +17,16 @@ const babCardUrl =
 
 const Dashboard = (props: Props) => {
   return (
-    <Flex flexDirection="column" left="16px" position="absolute" right="16px">
+    <Flex
+      flexDirection="column"
+      left="16px"
+      position="absolute"
+      right="16px"
+      sx={{
+        'max-width': '100%',
+        'overflow-x': 'hidden',
+      }}
+    >
       <Box py={4}>
         <Heading as="h1" size="4xl" textAlign="center">
           Membership
@@ -74,6 +83,7 @@ const Dashboard = (props: Props) => {
         justify="space-between"
         direction={{ base: 'column-reverse', md: 'row' }}
         align="center"
+        backgroundColor="black"
       >
         <Text fontSize="sm" color="subtle">
           Made with ❤️ by {'B@B'}
