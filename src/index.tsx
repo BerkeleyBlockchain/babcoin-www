@@ -9,12 +9,12 @@ import {
   DisclaimerComponent,
 } from '@rainbow-me/rainbowkit'
 import { BrowserRouter } from 'react-router-dom'
-import theme from 'theme'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
 import { App } from './App'
+import theme from './theme'
 
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
