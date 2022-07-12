@@ -103,21 +103,14 @@ const TopBar = (props: Props) => {
           </Link>
         </UnorderedList>
 
-        <Box>
-          {isOpen ? (
+        {isOpen && (
+          <>
             <SmallCircleIcon
               boxSize={50}
               position="fixed"
               bottom="45px"
               width="100%"
             />
-          ) : (
-            <></>
-          )}
-        </Box>
-
-        <Box>
-          {isOpen ? (
             <CloseButton
               size="lg"
               color="#FDFDFD"
@@ -127,10 +120,8 @@ const TopBar = (props: Props) => {
               width="100%"
               zIndex={1}
             />
-          ) : (
-            <></>
-          )}
-        </Box>
+          </>
+        )}
       </motion.nav>
 
       <Outlet />
