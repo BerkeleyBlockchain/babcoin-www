@@ -4,14 +4,18 @@ import { createIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
+  Heading,
   IconButton,
   Image,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
+// @ts-ignore
+import { ReactComponent as Logo } from 'assets/logo.svg'
 
 // using `path`
 export const CircleIcon = createIcon({
@@ -48,7 +52,7 @@ const TopBar = (props: Props) => {
       {/* {!isOpen ? ( */}
       <Box bg="black" px="15px" pt="19px">
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Image src="./logo.png" alt="B@B" zIndex={2} px="15px" />
+          {/* <Image src="./logo.png" alt="B@B" zIndex={2} px="15px" /> */}
           {/* <IconButton
             size={'lg'}
             color="white"
@@ -59,6 +63,16 @@ const TopBar = (props: Props) => {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           /> */}
+          <Flex alignItems="center">
+            <Logo height="36px" width="36px" />
+            <Box width="8px" />
+            <Heading>
+              B@B
+              <Text as="span" color="#fecb33">
+                Coin
+              </Text>
+            </Heading>
+          </Flex>
           <Menu>
             <MenuButton
               as={IconButton}
