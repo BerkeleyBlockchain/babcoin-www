@@ -6,6 +6,8 @@ import Dashboard from 'views/Dashboard'
 import Events from 'views/Event'
 import Home from 'views/Home'
 
+import '@rainbow-me/rainbowkit/styles.css'
+
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
 
