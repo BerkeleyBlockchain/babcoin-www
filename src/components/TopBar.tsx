@@ -87,9 +87,6 @@ const TopBar = (props: Props) => {
               <MenuItem onClick={() => navigate('/dashboard')} bg="none">
                 Dashboard
               </MenuItem>
-              <MenuItem onClick={() => {}} bg="none">
-                Connect Wallet
-              </MenuItem>
               {/* <MenuItem onClick={() => navigate('/')} bg="none">
               Admin
               </MenuItem>

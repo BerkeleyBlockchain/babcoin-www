@@ -13,6 +13,7 @@ const EventRow: React.FC<Props> = ({
   const date = new Date(timestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
   const timeString = `${date.getHours()}:${date.getMinutes()}`
+  const pm = date.getHours() >= 12
 
   return (
     <div>
@@ -20,7 +21,7 @@ const EventRow: React.FC<Props> = ({
         {name}
       </Text>
       <Text color="#7C7C7C" fontWeight="semibold">
-        {`${dateString} | ${timeString} | ${location}`}
+        {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${location}`}
       </Text>
     </div>
   )
