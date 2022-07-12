@@ -62,7 +62,7 @@ root.render(
             chains={chains}
             // coolMode
             theme={darkTheme({
-              accentColor: '#fecb33',
+              accentColor: 'white',
               accentColorForeground: 'black',
               overlayBlur: 'small',
             })}
