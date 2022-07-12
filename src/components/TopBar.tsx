@@ -1,18 +1,17 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
+import { createIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
-  CloseButton,
   Flex,
-  HStack,
   IconButton,
   Image,
-  ListItem,
-  UnorderedList,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   useDisclosure,
 } from '@chakra-ui/react'
-import { CloseIcon, createIcon, HamburgerIcon } from '@chakra-ui/icons'
-import { motion } from 'framer-motion'
 
 // using `path`
 export const CircleIcon = createIcon({
@@ -42,28 +41,54 @@ type Props = {}
 
 const TopBar = (props: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const navigate = useNavigate()
 
   return (
     <>
-      {!isOpen ? (
-        <Box bg="black" px="15px" pt="19px">
-          <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-            <Image src="./logo.png" alt="B@B" zIndex={2} px="15px" />
-            <IconButton
-              size={'lg'}
-              color="white"
-              bg="black"
-              colorScheme="blackAlpha"
-              icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-              aria-label={'Open Menu'}
-              display={{ md: 'none' }}
-              onClick={isOpen ? onClose : onOpen}
+      {/* {!isOpen ? ( */}
+      <Box bg="black" px="15px" pt="19px">
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+          <Image src="./logo.png" alt="B@B" zIndex={2} px="15px" />
+          {/* <IconButton
+            size={'lg'}
+            color="white"
+            bg="black"
+            colorScheme="blackAlpha"
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          /> */}
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={<HamburgerIcon />}
+              variant="ghost"
             />
-          </Flex>
-        </Box>
-      ) : null}
+            <MenuList bg="#fecb33" color="black">
+              <MenuItem onClick={() => navigate('/')} bg="none">
+                Home
+              </MenuItem>
+              <MenuItem onClick={() => navigate('/dashboard')} bg="none">
+                Dashboard
+              </MenuItem>
+              <MenuItem onClick={() => {}} bg="none">
+                Connect Wallet
+              </MenuItem>
+              {/* <MenuItem onClick={() => navigate('/')} bg="none">
+              Admin
+              </MenuItem>
+              <MenuItem onClick={() => navigate('/')} bg="none">
+              Requirements
+              </MenuItem> */}
+            </MenuList>
+          </Menu>
+        </Flex>
+      </Box>
+      {/* ) : null} */}
 
-      <motion.nav
+      {/* <motion.nav
         animate={isOpen ? 'open' : 'closed'}
         transition={{ type: 'Tween', stiffness: 40 }}
         variants={variants}
@@ -122,7 +147,7 @@ const TopBar = (props: Props) => {
             />
           </>
         )}
-      </motion.nav>
+      </motion.nav> */}
 
       <Outlet />
     </>
