@@ -8,6 +8,15 @@ import Home from 'views/Home'
 
 import '@rainbow-me/rainbowkit/styles.css'
 
+import { useContractReads } from 'wagmi'
+
+
+const contractABI = require("../contract-abi.json");
+const mintNftContract = {
+  addressOrName: '0xcbAC32Cc56c8f6c9ac127B304AF8bC5A631CE922',
+  contractInterface:  contractABI,
+}
+
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
 
