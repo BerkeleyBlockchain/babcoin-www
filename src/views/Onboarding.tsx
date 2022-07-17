@@ -1,5 +1,6 @@
 import { Flex, Box, Text } from '@chakra-ui/react'
 import { Input } from '@chakra-ui/react'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 type Props = {}
 
@@ -11,6 +12,7 @@ const Onboarding = (props: Props) => {
         What's your name?
       </Text>
       <Input placeholder='Name' />
+      <ConnectButton label="Connect Wallet" />
     </Flex>
   )
 }
