@@ -1,11 +1,16 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, Box, Text } from '@chakra-ui/react'
+import { Input } from '@chakra-ui/react'
 
 type Props = {}
 
 const Onboarding = (props: Props) => {
   return (
     <Flex flexDirection="column" left="16px" position="absolute" right="16px">
-      Onboarding
+      <Box height="44px" />
+      <Text fontSize="50px" fontWeight="bold">
+        What's your name?
+      </Text>
+      <Input placeholder='Name' />
     </Flex>
   )
 }
