@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import Dashboard from 'views/Dashboard'
 import Events from 'views/Event'
 import Home from 'views/Home'
+import Onboarding from 'views/Onboarding'
 
 import '@rainbow-me/rainbowkit/styles.css'
 
@@ -18,6 +19,7 @@ export const App = () => {
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="events" element={<Events />} />
+          <Route path="onboarding" element={<Onboarding />} />
         </Route>
       </Routes>
     )

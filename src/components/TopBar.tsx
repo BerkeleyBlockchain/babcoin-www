@@ -1,8 +1,9 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { createIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Box,
+  Center,
   Flex,
   Heading,
   IconButton,
@@ -14,8 +15,10 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useAccount } from 'wagmi'
 // @ts-ignore
 import { ReactComponent as Logo } from 'assets/logo.svg'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 // using `path`
 export const CircleIcon = createIcon({
@@ -44,8 +47,12 @@ const variants = {
 type Props = {}
 
 const TopBar = (props: Props) => {
+  const { status } = useAccount()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { pathname } = useLocation()
   const navigate = useNavigate()
+
+  const shouldRender = pathname === '/onboarding' || status === 'connected'
 
   return (
     <>
@@ -97,6 +104,17 @@ const TopBar = (props: Props) => {
           </Menu>
         </Flex>
       </Box>
+      {shouldRender ? (
+        <Outlet />
+      ) : (
+        <Flex
+          alignItems="center"
+          minHeight="calc(100vh - 84px)"
+          justifyContent="center"
+        >
+          <ConnectButton label="Connect Wallet to Check In" />
+        </Flex>
+      )}
       {/* ) : null} */}
 
       {/* <motion.nav
@@ -159,8 +177,6 @@ const TopBar = (props: Props) => {
           </>
         )}
       </motion.nav> */}
-
-      <Outlet />
     </>
   )
 }
