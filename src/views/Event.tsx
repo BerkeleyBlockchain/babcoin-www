@@ -1,3 +1,4 @@
+import { ArrowBackIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -7,6 +8,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
   location: string
@@ -21,6 +23,7 @@ const Event: React.FC<Props> = ({
   id = '312',
   timestamp = 1657628971211,
 }) => {
+  const navigate = useNavigate()
   const date = new Date(timestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
   const timeString = `${date.getHours()}:${date.getMinutes()}`
@@ -33,7 +36,16 @@ const Event: React.FC<Props> = ({
       right="16px"
       minHeight="calc(100vh - 84px)"
     >
-      <Box height="25vh" />
+      <Button
+        colorScheme="gray"
+        leftIcon={<ArrowBackIcon />}
+        onClick={() => navigate('/')}
+        variant="outline"
+        width="108px"
+      >
+        Home
+      </Button>
+      <Box height="108px" />
       <Stack spacing="12px">
         <Heading size="4xl">Club Census #1</Heading>
         <Text color="#7C7C7C" fontWeight="semibold">
@@ -53,6 +65,7 @@ const Event: React.FC<Props> = ({
       >
         Mint
       </Button>
+      <Box height="6px" />
     </Flex>
   )
 }
