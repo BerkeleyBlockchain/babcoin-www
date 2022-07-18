@@ -47,7 +47,7 @@ const Event: React.FC<Props> = ({
       </Button>
       <Box height="108px" />
       <Stack spacing="12px">
-        <Heading size="4xl">Club Census #1</Heading>
+        <Heading size="3xl">Club Census #1</Heading>
         <Text color="#7C7C7C" fontWeight="semibold">
           {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${location}`}
         </Text>
