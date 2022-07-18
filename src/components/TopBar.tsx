@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { createIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
@@ -49,7 +49,10 @@ type Props = {}
 const TopBar = (props: Props) => {
   const { status } = useAccount()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { pathname } = useLocation()
   const navigate = useNavigate()
+
+  const shouldRender = pathname === '/onboarding' || status === 'connected'
 
   return (
     <>
@@ -101,7 +104,7 @@ const TopBar = (props: Props) => {
           </Menu>
         </Flex>
       </Box>
-      {status === 'connected' ? (
+      {shouldRender ? (
         <Outlet />
       ) : (
         <Flex
