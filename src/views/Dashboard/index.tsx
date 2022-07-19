@@ -1,7 +1,45 @@
 import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
 import NftGallery from './components/NftGallery'
+import {useAccount} from 'wagmi';
+import {useState, useEffect} from 'react';
 
 const Dashboard = () => {
+  const account = useAccount();
+  const [attendedEvents, setAttendedEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
+
+  // Get the events that the user has attended
+  useEffect(() => {
+    fetch('https://babcoin-backend.herokuapp.com/v1/user/events?address=' + account, {
+      method: 'GET'})
+      .then(res => res.json())
+      .then(data => {
+        setAttendedEvents(data);
+      }
+      )
+  }, [account]);
+
+  // Get all events that have occurred so far
+  useEffect(() => {
+    fetch('https://babcoin-backend.herokuapp.com/v1/event/', {
+      method: 'GET'})
+      .then(res => res.json())
+      .then(data => {
+        setAllEvents(data);
+      }
+      )
+  }, []);
+
+  // Takes all the attended events and returns the events that this user has attended
+  const attendedEventsNames: string[] = [];
+  for (let i = 0; i < attendedEvents.length; i++) {
+    for (let j = 0; j < allEvents.length; j++) {
+      if (attendedEvents[i]["_id"] === allEvents[j]["_id"]) {
+        attendedEventsNames.push(allEvents[j]["name"]);
+      }
+    }
+  }
+
   return (
     <Flex
       flexDirection="column"
@@ -20,24 +58,15 @@ const Dashboard = () => {
         Membership
       </Text>
       <Stack gap={15}>
-        <div>
-          <Text fontSize="sm" mb={2} textAlign="left">
-            Clubcensus
-          </Text>
-          <Progress colorScheme="merkleMango" value={80} borderRadius={7.5} />
-        </div>
-        <div>
-          <Text fontSize="sm" mb={2} textAlign="left">
-            Clubcensus 2
-          </Text>
-          <Progress colorScheme="merkleMango" value={50} borderRadius={7.5} />
-        </div>
-        <div>
-          <Text fontSize="sm" mb={2} textAlign="left">
-            Clubcensus 3
-          </Text>
-          <Progress colorScheme="merkleMango" value={30} borderRadius={7.5} />
-        </div>
+        {/* TODO(chris): Verify that this event map is populated (valid events are shown) */}
+        {attendedEventsNames.map((event, id) => (
+          <div>
+            <Text fontSize="sm" mb={2} textAlign="left">
+              {event}
+            </Text>
+            <Progress colorScheme="merkleMango" value={100} borderRadius={7.5} />
+          </div>
+        ))}
       </Stack>
       <Box height="72px" />
       <Text fontSize="50px" fontWeight="bold">
