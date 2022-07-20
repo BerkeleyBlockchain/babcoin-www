@@ -4,20 +4,20 @@ import {useAccount} from 'wagmi';
 import {useState, useEffect} from 'react';
 
 const Dashboard = () => {
-  const account = useAccount();
+  const address = useAccount().address;
   const [attendedEvents, setAttendedEvents] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
 
   // Get the events that the user has attended
   useEffect(() => {
-    fetch('https://babcoin-backend.herokuapp.com/v1/user/events?address=' + account, {
+    fetch('https://babcoin-backend.herokuapp.com/v1/user/events?address=' + address, {
       method: 'GET'})
       .then(res => res.json())
       .then(data => {
         setAttendedEvents(data);
       }
       )
-  }, [account]);
+  }, []);
 
   // Get all events that have occurred so far
   useEffect(() => {
@@ -39,6 +39,7 @@ const Dashboard = () => {
       }
     }
   }
+
 
   return (
     <Flex
