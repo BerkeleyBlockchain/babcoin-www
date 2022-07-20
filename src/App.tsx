@@ -9,10 +9,13 @@ import Home from 'views/Home'
 import '@rainbow-me/rainbowkit/styles.css'
 
 import { useContractReads } from 'wagmi'
+import { Button } from '@chakra-ui/react'
 
 
-const contractABI = require("../contract-abi.json");
+const contractABI = require("./contract-abi.json");
 const mintNftContract = {
+  //test contract
+  //addressOrName: '0x8a25DcB234b2d3F7d3A8A6bF0C592AdCaF20aAfb',
   addressOrName: '0xcbAC32Cc56c8f6c9ac127B304AF8bC5A631CE922',
   contractInterface: contractABI,
   watch: true,
@@ -47,6 +50,7 @@ export const App = () => {
         functionName: 'uri',
         args: [1],
       },
+    
     ],
     onSuccess(data) {
       console.log('Success', data)
@@ -67,8 +71,10 @@ export const App = () => {
       </Routes>
     )
   }
-
+  const balance = mintNftContract.balanceOf(0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f, 1)
+  
   return (
+   
     <a
       href="https://www.browserstack.com/guide/view-mobile-version-of-website-on-chrome"
       target="_blank"

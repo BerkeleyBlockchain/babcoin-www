@@ -1,4 +1,4 @@
-import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Progress, Stack, Text } from '@chakra-ui/react'
 import NftGallery from './components/NftGallery'
 
 const Dashboard = () => {
@@ -19,6 +19,7 @@ const Dashboard = () => {
       <Text fontSize="50px" fontWeight="bold">
         Membership
       </Text>
+      <Button />
       <Stack gap={15}>
         <div>
           <Text fontSize="sm" mb={2} textAlign="left">

@@ -20,6 +20,7 @@ const Events = (props: Props) => {
       alignItems="center"
       minH="100vh"
     >
+      <Button />
       <Box pl="3">
         <Box w="90%" mt="50%" pl="3">
           <Heading as="h2" size="4xl">
