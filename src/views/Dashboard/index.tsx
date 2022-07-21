@@ -1,46 +1,48 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
 import NftGallery from './components/NftGallery'
-import {useAccount} from 'wagmi';
-import {useState, useEffect} from 'react';
+import { useAccount } from 'wagmi'
+import { useState, useEffect } from 'react'
 import ProgressBox from './components/ProgressBox'
 
 const Dashboard = () => {
-  const address = useAccount().address;
-  const [attendedEvents, setAttendedEvents] = useState([]);
-  const [allEvents, setAllEvents] = useState([]);
+  const address = useAccount().address
+  const [attendedEvents, setAttendedEvents] = useState([])
+  const [allEvents, setAllEvents] = useState([])
 
   // Get the events that the user has attended
   useEffect(() => {
-    fetch('https://babcoin-backend.herokuapp.com/v1/user/events?address=' + address, {
-      method: 'GET'})
-      .then(res => res.json())
-      .then(data => {
-        setAttendedEvents(data);
-      }
-      )
-  }, []);
+    fetch(
+      'https://babcoin-backend.herokuapp.com/v1/user/events?address=' + address,
+      {
+        method: 'GET',
+      },
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setAttendedEvents(data)
+      })
+  }, [address])
 
   // Get all events that have occurred so far
   useEffect(() => {
     fetch('https://babcoin-backend.herokuapp.com/v1/event/', {
-      method: 'GET'})
-      .then(res => res.json())
-      .then(data => {
-        setAllEvents(data);
-      }
-      )
-  }, []);
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAllEvents(data)
+      })
+  }, [])
 
   // Takes all the attended events and returns the events that this user has attended
-  const attendedEventsNames: string[] = [];
+  const attendedEventsNames: string[] = []
   for (let i = 0; i < attendedEvents.length; i++) {
     for (let j = 0; j < allEvents.length; j++) {
-      if (attendedEvents[i]["_id"] === allEvents[j]["_id"]) {
-        attendedEventsNames.push(allEvents[j]["name"]);
+      if (attendedEvents[i]['_id'] === allEvents[j]['_id']) {
+        attendedEventsNames.push(allEvents[j]['name'])
       }
     }
   }
-
 
   return (
     <Flex
@@ -59,7 +61,6 @@ const Dashboard = () => {
       <Text fontSize="50px" fontWeight="bold">
         Membership
       </Text>
-<<<<<<< HEAD
       <Stack gap={15}>
         {/* TODO(chris): Verify that this event map is populated (valid events are shown) */}
         {attendedEventsNames.map((event, id) => (
@@ -67,19 +68,21 @@ const Dashboard = () => {
             <Text fontSize="sm" mb={2} textAlign="left">
               {event}
             </Text>
-            <Progress colorScheme="merkleMango" value={100} borderRadius={7.5} />
+            <Progress
+              colorScheme="merkleMango"
+              value={100}
+              borderRadius={7.5}
+            />
           </div>
         ))}
       </Stack>
-=======
-      <Flex flexWrap="wrap" gap="12px">
+      {/* <Flex flexWrap="wrap" gap="12px">
         <ProgressBox current={3} max={10} title="Clubcensus" />
         <ProgressBox current={3} max={5} title="Dept Meetings" />
         <ProgressBox current={12} max={15} title="Socials" />
         <ProgressBox current={11} max={20} title="Whitepaper Circles" />
         <ProgressBox current={3} max={10} title="Tabling" />
-      </Flex>
->>>>>>> main
+      </Flex> */}
       <Box height="72px" />
       <Text fontSize="50px" fontWeight="bold">
         Attendance
