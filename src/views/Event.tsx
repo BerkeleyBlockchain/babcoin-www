@@ -8,10 +8,8 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { useAccount } from 'wagmi'
+import useDatabase from 'contexts/database/useDatabase'
 import { useNavigate } from 'react-router-dom'
-
-const testEventId = '62cfb76c640c79f63b74e8b9'
 
 type Props = {
   location: string
@@ -26,31 +24,13 @@ const Event: React.FC<Props> = ({
   id = '312',
   timestamp = 1657628971211,
 }) => {
+  const { onMint } = useDatabase()
   const navigate = useNavigate()
+
   const date = new Date(timestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
   const timeString = `${date.getHours()}:${date.getMinutes()}`
   const pm = date.getHours() >= 12
-  const address = useAccount().address
-
-  const handleMint = async () => {
-    const response = await fetch(
-      'https://babcoin-backend.herokuapp.com/v1/user/attendEvent',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          address: address,
-          eventId: testEventId,
-        }),
-      },
-    )
-    const data = await response.json()
-    console.log(data)
-    navigate('/dashboard')
-  }
 
   return (
     <Flex
@@ -86,7 +66,7 @@ const Event: React.FC<Props> = ({
         backgroundColor="white"
         borderRadius="12px"
         color="black"
-        onClick={handleMint}
+        onClick={() => onMint(id)}
         width="100%"
       >
         Mint
