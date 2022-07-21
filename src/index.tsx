@@ -35,6 +35,8 @@ const wagmiClient = createClient({
   provider,
 })
 
+
+
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
     By connecting your wallet, you agree to the{' '}
@@ -44,9 +46,12 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   </Text>
 )
 
+
+
 const container = document.getElementById('root')
 if (!container) throw new Error('Failed to find the root element')
 const root = ReactDOM.createRoot(container)
+
 
 root.render(
   <React.StrictMode>

@@ -5,25 +5,28 @@ import { Route, Routes } from 'react-router-dom'
 import Dashboard from 'views/Dashboard'
 import Events from 'views/Event'
 import Home from 'views/Home'
+import Test from 'Test'
 
 import '@rainbow-me/rainbowkit/styles.css'
 
-import { useContractReads } from 'wagmi'
-import { Button } from '@chakra-ui/react'
+import { useContractRead, useContractReads } from 'wagmi'
+
+
 
 
 const contractABI = require("./contract-abi.json");
+
+export const App = () => {
+  const isMobile = ismobilejs(window.navigator).any
+
+  
+const contractABI = require("./contract-abi.json");
 const mintNftContract = {
-  //test contract
-  //addressOrName: '0x8a25DcB234b2d3F7d3A8A6bF0C592AdCaF20aAfb',
   addressOrName: '0xcbAC32Cc56c8f6c9ac127B304AF8bC5A631CE922',
   contractInterface: contractABI,
   watch: true,
   
 }
-
-export const App = () => {
-  const isMobile = ismobilejs(window.navigator).any
   const { data, isError, isLoading } = useContractReads({
     contracts: [
       {
@@ -59,6 +62,9 @@ export const App = () => {
       console.log('Error', error)
     },
   })
+  
+
+ 
 
   if (isMobile) {
     return (
@@ -67,11 +73,12 @@ export const App = () => {
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="events" element={<Events />} />
+          <Route path="test" element={<Test />} />
         </Route>
       </Routes>
     )
   }
-  const balance = mintNftContract.balanceOf(0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f, 1)
+
   
   return (
    
@@ -80,7 +87,9 @@ export const App = () => {
       target="_blank"
       rel="noreferrer"
     >
+      
       switch to mobile mode! (and refresh)
     </a>
+    
   )
 }
