@@ -1,21 +1,20 @@
 import { Box, Flex, Icon, Stack, Text } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FiChevronDown } from 'react-icons/fi'
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react'
 
 import EventRow from './components/EventRow'
 
 const Home = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([])
 
   useEffect(() => {
     fetch('https://babcoin-backend.herokuapp.com/v1/event/')
-      .then(res => res.json())
-      .then(data => {
-        setEvents(data);
-      }
-      )
-  }, []);
+      .then((res) => res.json())
+      .then((data) => {
+        setEvents(data)
+      })
+  }, [])
 
   return (
     <>
@@ -53,8 +52,8 @@ const Home = () => {
             {events.map((event, id) => (
               <EventRow
                 location="SCET"
-                name={event["name"]}
-                timestamp={event["timestamp"]}
+                name={event['name']}
+                timestamp={event['timestamp']}
                 key={id}
               />
             ))}

@@ -76,13 +76,11 @@ const Dashboard = () => {
           </div>
         ))}
       </Stack>
-      {/* <Flex flexWrap="wrap" gap="12px">
-        <ProgressBox current={3} max={10} title="Clubcensus" />
-        <ProgressBox current={3} max={5} title="Dept Meetings" />
-        <ProgressBox current={12} max={15} title="Socials" />
-        <ProgressBox current={11} max={20} title="Whitepaper Circles" />
-        <ProgressBox current={3} max={10} title="Tabling" />
-      </Flex> */}
+      <Flex flexWrap="wrap" gap="12px">
+        {attendedEventsNames.map((event, id) => (
+          <ProgressBox current={3} max={10} title={event} />
+        ))}
+      </Flex>
       <Box height="72px" />
       <Text fontSize="50px" fontWeight="bold">
         Attendance
