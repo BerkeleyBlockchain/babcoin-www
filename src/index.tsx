@@ -38,7 +38,7 @@ const mumbai: Chain = {
 }
 
 const { chains, provider } = configureChains(
-  [mumbai],
+  [chain.polygonMumbai],
   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()],
 )
 
