@@ -1,20 +1,13 @@
 import { Box, Flex, Icon, Stack, Text } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FiChevronDown } from 'react-icons/fi'
-import { useEffect, useState } from 'react'
 
+import useDatabase from 'contexts/database/useDatabase'
 import EventRow from './components/EventRow'
 
 const Home = () => {
-  const [events, setEvents] = useState([])
-
-  useEffect(() => {
-    fetch('https://babcoin-backend.herokuapp.com/v1/event/')
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data)
-      })
-  }, [])
+  // 6. Use the context to get the state variable
+  const { events } = useDatabase()
 
   return (
     <>
@@ -53,7 +46,7 @@ const Home = () => {
               <EventRow
                 location="SCET"
                 name={event['name']}
-                timestamp={event['timestamp']}
+                timestamp={event.startTimestamp}
                 key={id}
               />
             ))}
