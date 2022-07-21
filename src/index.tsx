@@ -9,7 +9,7 @@ import {
   DisclaimerComponent,
 } from '@rainbow-me/rainbowkit'
 import { BrowserRouter } from 'react-router-dom'
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
+import { Chain, chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
@@ -19,8 +19,26 @@ import theme from './theme'
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
 
+const mumbai: Chain = {
+  id: 80001,
+  name: 'Mumbai Testnet',
+  network: 'Mumbai Testnet',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Mumbai Testnet',
+    symbol: 'MATIC',
+  },
+  rpcUrls: {
+    default: 'https://rpc-mumbai.maticvigil.com',
+  },
+  blockExplorers: {
+    default: { name: 'Polyscan', url: 'https://mumbai.polygonscan.com/' },
+  },
+  testnet: true,
+}
+
 const { chains, provider } = configureChains(
-  [chain.polygon],
+  [mumbai],
   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()],
 )
 

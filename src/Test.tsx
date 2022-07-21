@@ -8,7 +8,7 @@ const Test = () => {
       addressOrName: 'BabCoinContract',
       contractInterface: contractABI.abi,
       functionName: 'balanceOf',
-      args: ['0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f', 1],
+      args: ['0x8a25DcB234b2d3F7d3A8A6bF0C592AdCaF20aAfb', 1],
       
     },
   )
