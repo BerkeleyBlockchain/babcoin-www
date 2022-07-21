@@ -1,13 +1,15 @@
 import TopBar from 'components/TopBar'
 import ismobilejs from 'ismobilejs'
-import { Route, Routes } from 'react-router-dom'
+import { Outlet, Route, Routes } from 'react-router-dom'
 
 import Dashboard from 'views/Dashboard'
-import Events from 'views/Event'
+import Event from 'views/Event'
 import Home from 'views/Home'
 import Onboarding from 'views/Onboarding'
 
 import '@rainbow-me/rainbowkit/styles.css'
+
+// const Events = () => <Outlet />
 
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
@@ -18,7 +20,18 @@ export const App = () => {
         <Route path="/" element={<TopBar />}>
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="events" element={<Events />} />
+          <Route path="events" element={<Outlet />}>
+            <Route
+              path=":id"
+              element={
+                <Event
+                  location="SCET"
+                  name="Clubcesus #1"
+                  timestamp={1657629000000}
+                />
+              }
+            />
+          </Route>
           <Route path="onboarding" element={<Onboarding />} />
         </Route>
       </Routes>

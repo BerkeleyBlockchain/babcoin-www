@@ -70,7 +70,7 @@ const TopBar = (props: Props) => {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           /> */}
-          <Flex alignItems="center">
+          <Flex alignItems="center" onClick={() => navigate('/')}>
             <Logo height="36px" width="36px" />
             <Box width="8px" />
             <Heading>

@@ -1,5 +1,6 @@
-import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
+import { Box, Flex, Text } from '@chakra-ui/react'
 import NftGallery from './components/NftGallery'
+import ProgressBox from './components/ProgressBox'
 
 const Dashboard = () => {
   return (
@@ -19,32 +20,19 @@ const Dashboard = () => {
       <Text fontSize="50px" fontWeight="bold">
         Membership
       </Text>
-      <Stack gap={15}>
-        <div>
-          <Text fontSize="sm" mb={2} textAlign="left">
-            Clubcensus
-          </Text>
-          <Progress colorScheme="merkleMango" value={80} borderRadius={7.5} />
-        </div>
-        <div>
-          <Text fontSize="sm" mb={2} textAlign="left">
-            Clubcensus 2
-          </Text>
-          <Progress colorScheme="merkleMango" value={50} borderRadius={7.5} />
-        </div>
-        <div>
-          <Text fontSize="sm" mb={2} textAlign="left">
-            Clubcensus 3
-          </Text>
-          <Progress colorScheme="merkleMango" value={30} borderRadius={7.5} />
-        </div>
-      </Stack>
+      <Flex flexWrap="wrap" gap="12px">
+        <ProgressBox current={3} max={10} title="Clubcensus" />
+        <ProgressBox current={3} max={5} title="Dept Meetings" />
+        <ProgressBox current={12} max={15} title="Socials" />
+        <ProgressBox current={11} max={20} title="Whitepaper Circles" />
+        <ProgressBox current={3} max={10} title="Tabling" />
+      </Flex>
       <Box height="72px" />
       <Text fontSize="50px" fontWeight="bold">
         Attendance
       </Text>
       <NftGallery />
-      <Box height="44px" />
+      {/* <Box height="44px" />
       <Stack
         align="center"
         backgroundColor="black"
@@ -55,7 +43,7 @@ const Dashboard = () => {
         <Text fontSize="sm" color="subtle">
           Made with ❤️ by {'B@B'}
         </Text>
-      </Stack>
+      </Stack> */}
     </Flex>
   )
 }
