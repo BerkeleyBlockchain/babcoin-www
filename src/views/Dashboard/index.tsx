@@ -1,50 +1,34 @@
 import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
 import NftGallery from './components/NftGallery'
 import { useAccount } from 'wagmi'
-import { useState, useEffect } from 'react'
+import useDatabase from 'contexts/database/useDatabase'
 import ProgressBox from './components/ProgressBox'
+import { useEffect, useState } from 'react'
 
 const Dashboard = () => {
   const address = useAccount().address
-  const [attendedEvents, setAttendedEvents] = useState([])
-  const [allEvents, setAllEvents] = useState([])
 
   // Get the events that the user has attended
-  useEffect(() => {
-    fetch(
-      'https://babcoin-backend.herokuapp.com/v1/user/events?address=' + address,
-      {
-        method: 'GET',
-      },
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAttendedEvents(data)
-      })
-  }, [address])
+  const { attendedEvents } = useDatabase()
 
   // Get all events that have occurred so far
-  useEffect(() => {
-    fetch('https://babcoin-backend.herokuapp.com/v1/event/', {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setAllEvents(data)
-      })
-  }, [])
+  const { events } = useDatabase()
+  
 
   // Takes all the attended events and returns the events that this user has attended
   const attendedEventsNames: string[] = []
   for (let i = 0; i < attendedEvents.length; i++) {
-    for (let j = 0; j < allEvents.length; j++) {
-      if (attendedEvents[i]['_id'] === allEvents[j]['_id']) {
-        attendedEventsNames.push(allEvents[j]['name'])
+    for (let j = 0; j < events.length; j++) {
+      if (attendedEvents[i]['_id'] === events[j]['_id']) {
+        attendedEventsNames.push(events[j]['name'])
       }
     }
   }
+  console.log(events)
+  console.log(attendedEvents)
 
   return (
+    
     <Flex
       flexDirection="column"
       left="16px"

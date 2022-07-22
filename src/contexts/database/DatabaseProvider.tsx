@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import DatabaseContext from './DatabaseContext'
-import { Event } from './types'
+import { AttendedEvents, Event } from './types'
 import { useAccount } from 'wagmi'
 
 interface Props {
@@ -13,11 +13,17 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const address = useAccount().address
   // 1. Create a state variable
   const [events, setEvents] = useState<Event[]>([])
+  const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
 
   // 2. Create a memoized (useCallback) function to fetch
   const handleFetchEvents = useCallback(async () => {
     const res = await fetch(`${BASE_URL}/event`).then((res) => res.json())
     setEvents(res as Event[])
+  }, [])
+
+  const handleFetchAttendedEvents = useCallback(async () => {
+    const res = await fetch(`${BASE_URL}/events?address=${address}`).then((res) => res.json())
+    setAttendedEvents(res as AttendedEvents[])
   }, [])
 
   const handleMint = useCallback(
@@ -40,12 +46,13 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   // 3. Call fetch function on page load
   useEffect(() => {
     handleFetchEvents()
-  }, [handleFetchEvents])
+    handleFetchAttendedEvents()
+  }, [handleFetchEvents, handleFetchAttendedEvents])
 
   return (
     // 4. Pass the state variable to the context
     // 5. Look at Home to see how to use the context
-    <DatabaseContext.Provider value={{ events, onMint: handleMint }}>
+    <DatabaseContext.Provider value={{ events, onMint: handleMint, attendedEvents}}>
       {children}
     </DatabaseContext.Provider>
   )
