@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Progress, Stack, Text } from '@chakra-ui/react'
-//import CheckUserNftCount from './CheckUserNftCount'
-import GetUri from './GetUri'
+
 import NftGallery from './components/NftGallery'
 import { useAccount, useContractRead } from 'wagmi'
 
@@ -20,7 +19,7 @@ const Dashboard = () => {
         }
       }
     >
-      <GetUri/>
+      
       <Box height="44px" />
       <Text fontSize="50px" fontWeight="bold">
         Membership
