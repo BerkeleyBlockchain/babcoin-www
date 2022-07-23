@@ -19,6 +19,7 @@ import theme from './theme'
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
 
+/*
 const mumbai: Chain = {
   id: 80001,
   name: 'Mumbai Testnet',
@@ -35,7 +36,7 @@ const mumbai: Chain = {
     default: { name: 'Polyscan', url: 'https://mumbai.polygonscan.com/' },
   },
   testnet: true,
-}
+} */
 
 const { chains, provider } = configureChains(
   [chain.polygonMumbai],

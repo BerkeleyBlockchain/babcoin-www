@@ -3,24 +3,22 @@ const contractABI = require("./contract-abi.json")
 
 
 const Test = () => {
-  const { data, status} = useContractRead(
+  const {data, status} = useContractRead(
     {
-      addressOrName: 'BabCoinContract',
+      addressOrName: '0x8a25DcB234b2d3F7d3A8A6bF0C592AdCaF20aAfb',
       contractInterface: contractABI.abi,
       functionName: 'balanceOf',
-      args: ['0x8a25DcB234b2d3F7d3A8A6bF0C592AdCaF20aAfb', 1],
+      args: [ '0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f', 4]
       
     },
   )
-
     
-  const handleClick = async () => {
-    console.log(`Balance: ${data}`)
-    console.log(contractABI.abi)
+    console.log(`${data}`)
+  
     console.log(status)
-  }
+  
 
-  return <button onClick={handleClick}>Balance Of</button>
+  return <button>Balance Of</button>
   
 }
 

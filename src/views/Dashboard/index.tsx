@@ -1,5 +1,20 @@
 import { Box, Button, Flex, Progress, Stack, Text } from '@chakra-ui/react'
+import { useAccount, useContractRead } from 'wagmi'
+const contractABI = require("./contract-abi.json")
+const account = useAccount();
 import NftGallery from './components/NftGallery'
+
+//returns the number of NFTs(identified by NFT ID, is second argument) the account has
+const { data, status } = useContractRead(
+  {
+    addressOrName: '0x8a25DcB234b2d3F7d3A8A6bF0C592AdCaF20aAfb',
+    contractInterface: contractABI.abi,
+    functionName: 'balanceOf',
+    args: [account, 1]
+  },
+)
+
+
 
 const Dashboard = () => {
   return (
