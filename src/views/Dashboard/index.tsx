@@ -44,6 +44,7 @@ const Dashboard = () => {
   const baseURL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${apiKey}/getNFTs`;
   const ownerAddr = `${address}`;
   const withMetadata = "true";
+
   //data of all the user's nfts
   const [userNfts, setUserNfts] = useState<OwnedNfts>();
   const fetchURL = `${baseURL}?owner=${ownerAddr}&withMetadata=${withMetadata}`;
@@ -52,25 +53,31 @@ const Dashboard = () => {
     .then((result: any) => setUserNfts(result))
     .catch((error: any) => console.log('error', error))
   
-  //returns list of the user's nfts, index into this list to get more data
+  //returns list of the user's nfts, 
+  //index into this list to get more data
   //about each particular nft
   const ownedNfts = userNfts?.ownedNfts
   console.log(userNfts?.ownedNfts)
 
-  //number of Different nft's/tokens user has
+  //number of Different NFTs with unique user IDs the user has
   const totalNumDiffTokens = userNfts?.ownedNfts.length
   console.log(userNfts?.ownedNfts)
 
-  //get the token id number of an owned nft(by index)
-  let idNumber = Number(userNfts?.ownedNfts[1].id.tokenId)
-  console.log(Number(userNfts?.ownedNfts[1].id.tokenId))
+  //Inputs, an index position from user list of nfts
+  //Returns, the metadata url for that nft
+  function getMetadataURL(index: number) {
+    return userNfts?.ownedNfts[index].tokenUri.raw.replace("{id}",`${Number(userNfts?.ownedNfts[index].id.tokenId)}`)
+  }
 
-  //token metadata URL of a specific token
-  const metadataURL = userNfts?.ownedNfts[1].tokenUri.raw.replace("{id}",`${idNumber}`)
-  console.log(userNfts?.ownedNfts[1].tokenUri.raw.replace("{id}", `${idNumber}`))
-  
+  //Inputs, an index position from user list of nfts
+  //Returns, the number of that specific nft the user has
+  function getNumberOfNNfts(index: number) {
+    return userNfts?.ownedNfts[index].balance
+  }
+
+  //Gets the metadata for a certain nft
   const[nftMetadata, setNftMetadata] = useState<NftMetadata>()
-  fetch(`${metadataURL}`, requestOptions)
+  fetch(`${getMetadataURL(2)}`, requestOptions)
     .then(response => response.json())
     .then((result: any) => setNftMetadata(result))
     .catch((error: any) => console.log('error', error))
