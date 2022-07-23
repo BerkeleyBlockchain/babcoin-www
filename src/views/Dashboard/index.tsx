@@ -32,26 +32,6 @@ const Dashboard = () => {
   console.log(userNfts)
 
 
-//data of all the user's nfts
-const [userNftMetadata, setUserNftMetadata] = useState([]);
-
-//Fetch the user's owned nft metadata
-//I think there is a better way to iterate here, like simultaneously though the contract address
-//and corresponding token id
-for (let i = 1; i < 4; i++) {
-  const contractAddr = "0x8a25dcb234b2d3f7d3a8a6bf0c592adcaf20aafb"
-  const tokenId = `${i}`;
-  const tokenType = "erc1155";
-  const baseURLM = `https://polygon-mumbai.alchemyapi.io/nft/v2/${apiKey}/getNFTMetadata`;
-  const fetchMetadataURL = `${baseURLM}?contractAddress=${contractAddr}&tokenId=${tokenId}&tokenType=${tokenType}`;
-  fetch(fetchMetadataURL, requestOptions)
-  .then(response => response.json())
-  .then(response => JSON.stringify(response, null, 2))
-  .then(result => console.log(`${i}:${result}`))
-  .catch(error => console.log('error', error));
-}
-
-
 
   return (
     <Flex
