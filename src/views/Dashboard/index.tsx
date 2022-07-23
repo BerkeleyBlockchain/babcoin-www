@@ -2,6 +2,7 @@ import { Box, Button, Flex, Progress, Stack, Text } from '@chakra-ui/react'
 
 import NftGallery from './components/NftGallery'
 import { useAccount, useContractRead } from 'wagmi'
+import ReadNftData from './ReadNftData'
 
 
 
@@ -19,7 +20,7 @@ const Dashboard = () => {
         }
       }
     >
-      
+      <ReadNftData />
       <Box height="44px" />
       <Text fontSize="50px" fontWeight="bold">
         Membership
