@@ -19,25 +19,6 @@ import theme from './theme'
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
 
-/*
-const mumbai: Chain = {
-  id: 80001,
-  name: 'Mumbai Testnet',
-  network: 'Mumbai Testnet',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'Mumbai Testnet',
-    symbol: 'MATIC',
-  },
-  rpcUrls: {
-    default: 'https://rpc-mumbai.maticvigil.com',
-  },
-  blockExplorers: {
-    default: { name: 'Polyscan', url: 'https://mumbai.polygonscan.com/' },
-  },
-  testnet: true,
-} */
-
 const { chains, provider } = configureChains(
   [chain.polygonMumbai],
   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()],
