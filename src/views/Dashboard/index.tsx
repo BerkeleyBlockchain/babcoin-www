@@ -2,8 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import NftGallery from './components/NftGallery'
 import ProgressBox from './components/ProgressBox'
 
-import { useAccount } from 'wagmi';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react'
 
 interface OwnedNfts {
   //List of user's nfts with data(contract address, nft ID, balance of token, uri but is all nested)
@@ -27,7 +26,7 @@ interface TokenUris {
   raw: string
 }
 
-interface NftMetadata {
+interface metadata {
   description: string
   image: string
   name: string
@@ -35,39 +34,51 @@ interface NftMetadata {
 
 const Dashboard = () => {
   //const address = useAccount().address;
-  const address = "0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f"
-  const apiKey = "9_w25dPpnMio1K3JY9FifDnL1U7rlaP2"
-  var requestOptions = {
-    method: 'GET',
-    RequestRedirect: 'follow',
-  };
-  const baseURL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${apiKey}/getNFTs`;
-  const ownerAddr = `${address}`;
-  const withMetadata = "true";
+  const address = '0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f'
+  const apiKey = '9_w25dPpnMio1K3JY9FifDnL1U7rlaP2'
+  const baseURL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${apiKey}/getNFTs`
+  const ownerAddr = `${address}`
+  const withMetadata = 'true'
 
   //data of all the user's nfts
-  const [userNfts, setUserNfts] = useState<OwnedNfts>();
-  const fetchURL = `${baseURL}?owner=${ownerAddr}&withMetadata=${withMetadata}`;
-  fetch(fetchURL, requestOptions)
-    .then(response => response.json())
-    .then((result: any) => setUserNfts(result))
-    .catch((error: any) => console.log('error', error))
-  
-  //returns list of the user's nfts, 
+  const [userNfts, setUserNfts] = useState<OwnedNfts>()
+  console.log('🚀 ~ Dashboard ~ userNfts', userNfts)
+  const fetchURL = `${baseURL}?owner=${ownerAddr}&withMetadata=${withMetadata}`
+
+  const handleFetchNfts = useCallback(async () => {
+    const res = await fetch(fetchURL, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .catch((error: any) => console.log('error', error))
+    setUserNfts(res)
+  }, [fetchURL])
+
+  useEffect(() => {
+    handleFetchNfts()
+  }, [handleFetchNfts])
+
+  //returns list of the user's nfts,
   //index into this list to get more data
   //about each particular nft
   const ownedNfts = userNfts?.ownedNfts
-  console.log(userNfts?.ownedNfts)
+  // console.log(userNfts?.ownedNfts)
 
   //number of Different NFTs with unique user IDs the user has
   const totalNumDiffTokens = userNfts?.ownedNfts.length
-  console.log(userNfts?.ownedNfts)
+  // console.log(userNfts?.ownedNfts)
 
   //Inputs, an index position from user list of nfts
   //Returns, the metadata url for that nft
-  function getMetadataURL(index: number) {
-    return userNfts?.ownedNfts[index].tokenUri.raw.replace("{id}",`${Number(userNfts?.ownedNfts[index].id.tokenId)}`)
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getMetadataURL = useCallback(
+    (index: number) =>
+      userNfts?.ownedNfts[index].tokenUri.raw.replace(
+        '{id}',
+        `${Number(userNfts?.ownedNfts[index].id.tokenId)}`,
+      ),
+    [userNfts?.ownedNfts],
+  )
 
   //Inputs, an index position from user list of nfts
   //Returns, the number of that specific nft the user has
@@ -76,20 +87,21 @@ const Dashboard = () => {
   }
 
   //Gets the metadata for a certain nft
-  const[nftMetadata, setNftMetadata] = useState<NftMetadata>()
-  fetch(`${getMetadataURL(2)}`, requestOptions)
-    .then(response => response.json())
-    .then((result: any) => setNftMetadata(result))
-    .catch((error: any) => console.log('error', error))
-  console.log(nftMetadata?.description)
-  console.log(nftMetadata?.image)
-  console.log(nftMetadata?.name)
-  
-  
-  
+  const [metadata, setMetadata] = useState<metadata>()
 
+  const handleFetchMetadata = useCallback(async () => {
+    const res = await fetch(`${getMetadataURL(2)}`, {
+      method: 'GET',
+      // RequestRedirect: 'follow',
+    })
+      .then((response) => response.json())
+      .catch((error: any) => console.log('error', error))
+    setMetadata(res)
+  }, [getMetadataURL])
 
-
+  useEffect(() => {
+    handleFetchMetadata()
+  }, [handleFetchMetadata])
 
   return (
     <Flex
