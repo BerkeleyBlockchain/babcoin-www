@@ -26,10 +26,14 @@ interface TokenUris {
   raw: string
 }
 
-interface metadata {
+interface Metadata {
   description: string
   image: string
   name: string
+}
+
+interface IdToMetadataMap {
+  [key: string]: Metadata
 }
 
 const Dashboard = () => {
@@ -42,7 +46,6 @@ const Dashboard = () => {
 
   //data of all the user's nfts
   const [userNfts, setUserNfts] = useState<OwnedNfts>()
-  console.log('🚀 ~ Dashboard ~ userNfts', userNfts)
   const fetchURL = `${baseURL}?owner=${ownerAddr}&withMetadata=${withMetadata}`
 
   const handleFetchNfts = useCallback(async () => {
@@ -50,8 +53,8 @@ const Dashboard = () => {
       method: 'GET',
     })
       .then((response) => response.json())
-      .catch((error: any) => console.log('error', error))
-    setUserNfts(res)
+      .catch((error) => console.log(error))
+    setUserNfts(res as OwnedNfts)
   }, [fetchURL])
 
   useEffect(() => {
@@ -73,9 +76,9 @@ const Dashboard = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getMetadataURL = useCallback(
     (index: number) =>
-      userNfts?.ownedNfts[index].tokenUri.raw.replace(
+      userNfts?.ownedNfts[index - 1].tokenUri.raw.replace(
         '{id}',
-        `${Number(userNfts?.ownedNfts[index].id.tokenId)}`,
+        index.toString(),
       ),
     [userNfts?.ownedNfts],
   )
@@ -87,17 +90,29 @@ const Dashboard = () => {
   }
 
   //Gets the metadata for a certain nft
-  const [metadata, setMetadata] = useState<metadata>()
+  const [metadata, setMetadata] = useState<IdToMetadataMap>()
 
   const handleFetchMetadata = useCallback(async () => {
-    const res = await fetch(`${getMetadataURL(2)}`, {
-      method: 'GET',
-      // RequestRedirect: 'follow',
-    })
-      .then((response) => response.json())
-      .catch((error: any) => console.log('error', error))
-    setMetadata(res)
-  }, [getMetadataURL])
+    if (!userNfts) return
+    const promises: Promise<void>[] = []
+    for (const nft of Object.values(userNfts.ownedNfts)) {
+      const id = parseInt(nft.id.tokenId, 16)
+      promises.push(
+        fetch(`${getMetadataURL(id)}`, {
+          method: 'GET',
+        })
+          .then((response) => response.json())
+          .then((res) =>
+            setMetadata((m) => ({
+              ...m,
+              [`${nft.contract.address}_${id}`]: res as Metadata,
+            })),
+          )
+          .catch((err) => console.log(err)),
+      )
+    }
+    await Promise.all(promises)
+  }, [getMetadataURL, userNfts])
 
   useEffect(() => {
     handleFetchMetadata()
