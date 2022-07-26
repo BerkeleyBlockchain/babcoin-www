@@ -1,79 +1,21 @@
+import { useCallback, useEffect, useState } from 'react'
 import { Box, Flex, Text } from '@chakra-ui/react'
+import { IdToMetadataMap, Metadata, OwnedNfts } from 'types'
+
 import NftGallery from './components/NftGallery'
 import ProgressBox from './components/ProgressBox'
 
-import { useCallback, useEffect, useState } from 'react'
-
-interface OwnedNfts {
-  //List of user's nfts with data(contract address, nft ID, balance of token, uri but is all nested)
-  ownedNfts: Nfts[]
-  totalCount: number
-  blockHash: string
-}
-interface Nfts {
-  contract: Address
-  id: Id
-  balance: string
-  tokenUri: TokenUris
-}
-interface Address {
-  address: string
-}
-interface Id {
-  tokenId: string
-}
-interface TokenUris {
-  raw: string
-}
-
-interface Metadata {
-  description: string
-  image: string
-  name: string
-}
-
-interface IdToMetadataMap {
-  [key: string]: Metadata
-}
+const key = '9_w25dPpnMio1K3JY9FifDnL1U7rlaP2'
+const BASE_URL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${key}/getNFTs`
 
 const Dashboard = () => {
-  //const address = useAccount().address;
-  const address = '0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f'
-  const apiKey = '9_w25dPpnMio1K3JY9FifDnL1U7rlaP2'
-  const baseURL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${apiKey}/getNFTs`
-  const ownerAddr = `${address}`
-  const withMetadata = 'true'
-
-  //data of all the user's nfts
+  const [metadata, setMetadata] = useState<IdToMetadataMap>()
   const [userNfts, setUserNfts] = useState<OwnedNfts>()
-  const fetchURL = `${baseURL}?owner=${ownerAddr}&withMetadata=${withMetadata}`
+  // const address = useAccount().address;
+  const address = '0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f'
 
-  const handleFetchNfts = useCallback(async () => {
-    const res = await fetch(fetchURL, {
-      method: 'GET',
-    })
-      .then((response) => response.json())
-      .catch((error) => console.log(error))
-    setUserNfts(res as OwnedNfts)
-  }, [fetchURL])
-
-  useEffect(() => {
-    handleFetchNfts()
-  }, [handleFetchNfts])
-
-  //returns list of the user's nfts,
-  //index into this list to get more data
-  //about each particular nft
-  const ownedNfts = userNfts?.ownedNfts
-  // console.log(userNfts?.ownedNfts)
-
-  //number of Different NFTs with unique user IDs the user has
-  const totalNumDiffTokens = userNfts?.ownedNfts.length
-  // console.log(userNfts?.ownedNfts)
-
-  //Inputs, an index position from user list of nfts
-  //Returns, the metadata url for that nft
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Inputs, an index position from user list of nfts
+  // Returns, the metadata url for that nft
   const getMetadataURL = useCallback(
     (index: number) =>
       userNfts?.ownedNfts[index - 1].tokenUri.raw.replace(
@@ -82,15 +24,6 @@ const Dashboard = () => {
       ),
     [userNfts?.ownedNfts],
   )
-
-  //Inputs, an index position from user list of nfts
-  //Returns, the number of that specific nft the user has
-  function getNumberOfNNfts(index: number) {
-    return userNfts?.ownedNfts[index].balance
-  }
-
-  //Gets the metadata for a certain nft
-  const [metadata, setMetadata] = useState<IdToMetadataMap>()
 
   const handleFetchMetadata = useCallback(async () => {
     if (!userNfts) return
@@ -105,7 +38,7 @@ const Dashboard = () => {
           .then((res) =>
             setMetadata((m) => ({
               ...m,
-              [`${nft.contract.address}_${id}`]: res as Metadata,
+              [id - 1]: res as Metadata,
             })),
           )
           .catch((err) => console.log(err)),
@@ -114,9 +47,22 @@ const Dashboard = () => {
     await Promise.all(promises)
   }, [getMetadataURL, userNfts])
 
+  const handleFetchNfts = useCallback(async () => {
+    const res = await fetch(`${BASE_URL}?owner=${address}&withMetadata=true`, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .catch((error) => console.log(error))
+    setUserNfts(res as OwnedNfts)
+  }, [])
+
   useEffect(() => {
     handleFetchMetadata()
   }, [handleFetchMetadata])
+
+  useEffect(() => {
+    handleFetchNfts()
+  }, [handleFetchNfts])
 
   return (
     <Flex
