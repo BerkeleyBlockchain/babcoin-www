@@ -18,6 +18,7 @@ import theme from './theme'
 
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
+import DatabaseProvider from 'contexts/database'
 
 const { chains, provider } = configureChains(
   [chain.polygonMumbai],
@@ -67,7 +68,9 @@ root.render(
               overlayBlur: 'small',
             })}
           >
-            <App />
+            <DatabaseProvider>
+              <App />
+            </DatabaseProvider>
           </RainbowKitProvider>
         </WagmiConfig>
       </BrowserRouter>
