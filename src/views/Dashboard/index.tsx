@@ -1,23 +1,21 @@
-import { useCallback, useEffect, useState } from 'react'
 import { Box, Flex, Text } from '@chakra-ui/react'
-import { IdToMetadataMap, Metadata, OwnedNfts } from 'types'
 
+import useDatabase from 'contexts/database/useDatabase'
 import NftGallery from './components/NftGallery'
 import ProgressBox from './components/ProgressBox'
-import useDatabase from 'contexts/database/useDatabase'
 
 const key = '9_w25dPpnMio1K3JY9FifDnL1U7rlaP2'
 const BASE_URL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${key}/getNFTs`
 
 const Dashboard = () => {
-  const metadata = useDatabase()
-  const userNfts = useDatabase()
+  const { metadata, userNfts } = useDatabase()
+  console.log('🚀 ~ Dashboard ~ userNfts', userNfts)
+  console.log('🚀 ~ Dashboard ~ metadata', metadata)
   // const address = useAccount().address;
   const address = '0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f'
 
   // Inputs, an index position from user list of nfts
   // Returns, the metadata url for that nft
-
 
   return (
     <Flex

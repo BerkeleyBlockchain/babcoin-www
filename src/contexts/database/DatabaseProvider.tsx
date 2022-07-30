@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import DatabaseContext from './DatabaseContext'
-import { OwnedNfts, Nfts, Address, Id, TokenUris, Metadata, IdToMetadataMap } from './types'
+import { IdToMetadataMap, Metadata, Nfts } from './types'
 
 interface Props {
   children: React.ReactNode
@@ -11,8 +11,8 @@ const BASE_URL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${key}/getNFTs`
 
 const DatabaseProvider: React.FC<Props> = ({ children }) => {
   // 1. Create a state variable
-  const [metadata, setMetadata] = useState<IdToMetadataMap>()
-  const [userNfts, setUserNfts] = useState<OwnedNfts>()
+  const [metadata, setMetadata] = useState<IdToMetadataMap>({})
+  const [userNfts, setUserNfts] = useState<Nfts[]>([])
   const address = '0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f'
 
   // 2. Create a memoized (useCallback) function to fetch
@@ -22,25 +22,18 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
     })
       .then((response) => response.json())
       .catch((error) => console.log(error))
-    setUserNfts(res as OwnedNfts)
+    setUserNfts(res.ownedNfts as Nfts[])
   }, [])
-
-  const getMetadataURL = useCallback(
-    (index: number) =>
-      userNfts?.ownedNfts[index - 1].tokenUri.raw.replace(
-        '{id}',
-        index.toString(),
-      ),
-    [userNfts?.ownedNfts],
-  )
 
   const handleFetchMetadata = useCallback(async () => {
     if (!userNfts) return
     const promises: Promise<void>[] = []
-    for (const nft of Object.values(userNfts.ownedNfts)) {
+    for (const nft of Object.values(userNfts)) {
       const id = parseInt(nft.id.tokenId, 16)
+      const url = userNfts[id - 1].tokenUri.raw.replace('{id}', id.toString())
+
       promises.push(
-        fetch(`${getMetadataURL(id)}`, {
+        fetch(url, {
           method: 'GET',
         })
           .then((response) => response.json())
@@ -53,8 +46,9 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
           .catch((err) => console.log(err)),
       )
     }
+
     await Promise.all(promises)
-  }, [getMetadataURL, userNfts])
+  }, [userNfts])
 
   // 3. Call fetch function on page load
   useEffect(() => {
@@ -64,7 +58,6 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     handleFetchNfts()
   }, [handleFetchNfts])
-  
 
   return (
     // 4. Pass the state variable to the context
