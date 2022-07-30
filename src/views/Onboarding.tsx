@@ -13,7 +13,6 @@ const Onboarding = () => {
   const navigate = useNavigate()
   const { onSubmit } = useDatabase()
 
-
   return (
     <div>
       {nextClicked ? (

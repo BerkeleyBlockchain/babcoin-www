@@ -13,7 +13,6 @@ const Dashboard = () => {
 
   // Get all events that have occurred so far
   const { events } = useDatabase()
-  
 
   // Takes all the attended events and returns the events that this user has attended
   const attendedEventsNames: string[] = []
@@ -28,7 +27,6 @@ const Dashboard = () => {
   console.log(attendedEvents)
 
   return (
-    
     <Flex
       flexDirection="column"
       left="16px"

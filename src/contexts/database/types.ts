@@ -23,4 +23,5 @@ export interface AttendedEvents {
   __v: number
   _id: number
 }
+
 export type EventType = 'clubcensus'

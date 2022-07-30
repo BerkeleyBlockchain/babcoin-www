@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAccount } from 'wagmi'
 import DatabaseContext from './DatabaseContext'
 import { AttendedEvents, Event } from './types'
-import { useAccount } from 'wagmi'
-import { useNavigate } from 'react-router-dom'
 
 interface Props {
   children: React.ReactNode
@@ -13,8 +13,8 @@ const BASE_URL = 'https://babcoin-backend.herokuapp.com/v1'
 const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const address = useAccount().address
   // 1. Create a state variable
-  const [events, setEvents] = useState<Event[]>([])
   const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
+  const [events, setEvents] = useState<Event[]>([])
   const navigate = useNavigate()
 
   // 2. Create a memoized (useCallback) function to fetch
@@ -24,10 +24,11 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   }, [])
 
   const handleFetchAttendedEvents = useCallback(async () => {
-    const res = await fetch(`${BASE_URL}/events?address=${address}`).then((res) => res.json())
+    const res = await fetch(`${BASE_URL}/events?address=${address}`).then(
+      (res) => res.json(),
+    )
     setAttendedEvents(res as AttendedEvents[])
-  }, [])
-
+  }, [address])
 
   const handleSubmit = useCallback(
     async (name: string, email: string) => {
@@ -45,7 +46,7 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
       console.log(res)
       navigate('/dashboard')
     },
-    []
+    [address, navigate],
   )
 
   const handleMint = useCallback(
@@ -74,7 +75,14 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   return (
     // 4. Pass the state variable to the context
     // 5. Look at Home to see how to use the context
-    <DatabaseContext.Provider value={{ events, onMint: handleMint, attendedEvents, onSubmit: handleSubmit}}>
+    <DatabaseContext.Provider
+      value={{
+        attendedEvents,
+        events,
+        onMint: handleMint,
+        onSubmit: handleSubmit,
+      }}
+    >
       {children}
     </DatabaseContext.Provider>
   )
