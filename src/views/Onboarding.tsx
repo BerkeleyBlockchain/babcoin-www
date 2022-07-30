@@ -3,6 +3,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useState } from 'react'
 import { useAccount } from 'wagmi'
 import { useNavigate } from 'react-router-dom'
+import useDatabase from 'contexts/database/useDatabase'
 
 const Onboarding = () => {
   const [name, setName] = useState('')
@@ -10,26 +11,8 @@ const Onboarding = () => {
   const [nextClicked, setNextClicked] = useState(false)
   const { address } = useAccount()
   const navigate = useNavigate()
+  const { onSubmit } = useDatabase()
 
-  const handleSubmit = async () => {
-    const response = await fetch(
-      'https://babcoin-backend.herokuapp.com/v1/user/newUser',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          address: address,
-        }),
-      },
-    )
-    const data = await response.json()
-    console.log(data)
-    navigate('/dashboard')
-  }
 
   return (
     <div>
@@ -61,7 +44,7 @@ const Onboarding = () => {
             backgroundColor="white"
             borderRadius="12px"
             color="black"
-            onClick={handleSubmit}
+            onClick={() => onSubmit(name, email)}
           >
             Submit
           </Button>
