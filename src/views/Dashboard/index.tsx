@@ -1,17 +1,14 @@
 import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
 
 import useDatabase from 'contexts/database/useDatabase'
+import { useAccount } from 'wagmi'
 import NftGallery from './components/NftGallery'
 import ProgressBox from './components/ProgressBox'
 
 const Dashboard = () => {
-  // Get the events that the user has attended
-  const { attendedEvents } = useDatabase()
+  const { address } = useAccount()
+  const { attendedEvents, events } = useDatabase()
 
-  // Get all events that have occurred so far
-  const { events } = useDatabase()
-
-  // Takes all the attended events and returns the events that this user has attended
   const attendedEventsNames: string[] = []
   for (let i = 0; i < attendedEvents.length; i++) {
     for (let j = 0; j < events.length; j++) {
@@ -20,8 +17,6 @@ const Dashboard = () => {
       }
     }
   }
-  console.log(events)
-  console.log(attendedEvents)
 
   return (
     <Flex
@@ -64,7 +59,9 @@ const Dashboard = () => {
       <Text fontSize="50px" fontWeight="bold">
         Attendance
       </Text>
-      <NftGallery />
+      <NftGallery
+        account={'0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f' || address}
+      />
       {/* <Box height="44px" />
       <Stack
         align="center"
