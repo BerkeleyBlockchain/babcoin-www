@@ -1,17 +1,22 @@
+import { useCallback, useState } from 'react'
+
 import { Box, Button, Center, Flex, Input, Text } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useState } from 'react'
-import { useAccount } from 'wagmi'
 import { useNavigate } from 'react-router-dom'
+
 import useDatabase from 'contexts/database/useDatabase'
 
 const Onboarding = () => {
+  const { onCreateUser } = useDatabase()
+  const navigate = useNavigate()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [nextClicked, setNextClicked] = useState(false)
-  const { address } = useAccount()
-  const navigate = useNavigate()
-  const { onSubmit } = useDatabase()
+
+  const handleSubmit = useCallback(async () => {
+    onCreateUser(name, email)
+    navigate('/dashboard')
+  }, [email, name, navigate, onCreateUser])
 
   return (
     <div>
@@ -43,7 +48,7 @@ const Onboarding = () => {
             backgroundColor="white"
             borderRadius="12px"
             color="black"
-            onClick={() => onSubmit(name, email)}
+            onClick={handleSubmit}
           >
             Submit
           </Button>
