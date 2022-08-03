@@ -1,68 +1,27 @@
-import { useCallback, useEffect, useState } from 'react'
-import { Box, Flex, Text } from '@chakra-ui/react'
-import { IdToMetadataMap, Metadata, OwnedNfts } from 'types'
+import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
 
+import useDatabase from 'contexts/database/useDatabase'
 import NftGallery from './components/NftGallery'
 import ProgressBox from './components/ProgressBox'
 
-const key = '9_w25dPpnMio1K3JY9FifDnL1U7rlaP2'
-const BASE_URL = `https:/polygon-mumbai.g.alchemy.com/nft/v2/${key}/getNFTs`
-
 const Dashboard = () => {
-  const [metadata, setMetadata] = useState<IdToMetadataMap>()
-  const [userNfts, setUserNfts] = useState<OwnedNfts>()
-  // const address = useAccount().address;
-  const address = '0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f'
+  // Get the events that the user has attended
+  const { attendedEvents } = useDatabase()
 
-  // Inputs, an index position from user list of nfts
-  // Returns, the metadata url for that nft
-  const getMetadataURL = useCallback(
-    (index: number) =>
-      userNfts?.ownedNfts[index - 1].tokenUri.raw.replace(
-        '{id}',
-        index.toString(),
-      ),
-    [userNfts?.ownedNfts],
-  )
+  // Get all events that have occurred so far
+  const { events } = useDatabase()
 
-  const handleFetchMetadata = useCallback(async () => {
-    if (!userNfts) return
-    const promises: Promise<void>[] = []
-    for (const nft of Object.values(userNfts.ownedNfts)) {
-      const id = parseInt(nft.id.tokenId, 16)
-      promises.push(
-        fetch(`${getMetadataURL(id)}`, {
-          method: 'GET',
-        })
-          .then((response) => response.json())
-          .then((res) =>
-            setMetadata((m) => ({
-              ...m,
-              [id - 1]: res as Metadata,
-            })),
-          )
-          .catch((err) => console.log(err)),
-      )
+  // Takes all the attended events and returns the events that this user has attended
+  const attendedEventsNames: string[] = []
+  for (let i = 0; i < attendedEvents.length; i++) {
+    for (let j = 0; j < events.length; j++) {
+      if (attendedEvents[i]['_id'] === events[j]['_id']) {
+        attendedEventsNames.push(events[j]['name'])
+      }
     }
-    await Promise.all(promises)
-  }, [getMetadataURL, userNfts])
-
-  const handleFetchNfts = useCallback(async () => {
-    const res = await fetch(`${BASE_URL}?owner=${address}&withMetadata=true`, {
-      method: 'GET',
-    })
-      .then((response) => response.json())
-      .catch((error) => console.log(error))
-    setUserNfts(res as OwnedNfts)
-  }, [])
-
-  useEffect(() => {
-    handleFetchMetadata()
-  }, [handleFetchMetadata])
-
-  useEffect(() => {
-    handleFetchNfts()
-  }, [handleFetchNfts])
+  }
+  console.log(events)
+  console.log(attendedEvents)
 
   return (
     <Flex
@@ -81,12 +40,25 @@ const Dashboard = () => {
       <Text fontSize="50px" fontWeight="bold">
         Membership
       </Text>
+      <Stack gap={15}>
+        {/* TODO(chris): Verify that this event map is populated (valid events are shown) */}
+        {attendedEventsNames.map((event, id) => (
+          <div>
+            <Text fontSize="sm" mb={2} textAlign="left">
+              {event}
+            </Text>
+            <Progress
+              colorScheme="merkleMango"
+              value={100}
+              borderRadius={7.5}
+            />
+          </div>
+        ))}
+      </Stack>
       <Flex flexWrap="wrap" gap="12px">
-        <ProgressBox current={3} max={10} title="Clubcensus" />
-        <ProgressBox current={3} max={5} title="Dept Meetings" />
-        <ProgressBox current={12} max={15} title="Socials" />
-        <ProgressBox current={11} max={20} title="Whitepaper Circles" />
-        <ProgressBox current={3} max={10} title="Tabling" />
+        {attendedEventsNames.map((event, id) => (
+          <ProgressBox current={3} max={10} title={event} />
+        ))}
       </Flex>
       <Box height="72px" />
       <Text fontSize="50px" fontWeight="bold">

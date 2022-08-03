@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
+import useDatabase from 'contexts/database/useDatabase'
 import { useNavigate } from 'react-router-dom'
 
 type Props = {
@@ -23,11 +24,14 @@ const Event: React.FC<Props> = ({
   id = '312',
   timestamp = 1657628971211,
 }) => {
+  const { onMint } = useDatabase()
   const navigate = useNavigate()
+
   const date = new Date(timestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
   const timeString = `${date.getHours()}:${date.getMinutes()}`
   const pm = date.getHours() >= 12
+
   return (
     <Flex
       flexDirection="column"
@@ -57,10 +61,12 @@ const Event: React.FC<Props> = ({
         </Text>
       </Stack>
       <Spacer />
+
       <Button
         backgroundColor="white"
         borderRadius="12px"
         color="black"
+        onClick={() => onMint(id)}
         width="100%"
       >
         Mint

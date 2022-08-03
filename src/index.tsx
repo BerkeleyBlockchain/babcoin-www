@@ -13,6 +13,8 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
+import DatabaseProvider from 'contexts/database'
+
 import { App } from './App'
 import theme from './theme'
 
@@ -67,7 +69,9 @@ root.render(
               overlayBlur: 'small',
             })}
           >
-            <App />
+            <DatabaseProvider>
+              <App />
+            </DatabaseProvider>
           </RainbowKitProvider>
         </WagmiConfig>
       </BrowserRouter>

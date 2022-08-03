@@ -2,9 +2,13 @@ import { Box, Flex, Icon, Stack, Text } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FiChevronDown } from 'react-icons/fi'
 
+import useDatabase from 'contexts/database/useDatabase'
 import EventRow from './components/EventRow'
 
 const Home = () => {
+  // 6. Use the context to get the state variable
+  const { events } = useDatabase()
+
   return (
     <>
       <Flex
@@ -36,72 +40,16 @@ const Home = () => {
             <Heading fontSize={68}>Pull Up</Heading>
             <Heading fontSize={68}>Right Now</Heading>
           </Box> */}
+          {/* NOTE: shouldn't location be added to the events endpoint response? */}
           <Stack gap="12px">
-            <EventRow
-              location="SCET"
-              name="Clubcesus #1"
-              timestamp={1657629000000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
-            <EventRow
-              location="Osmosis Office"
-              name="Rager #6.5"
-              timestamp={1657715400000}
-            />
+            {events.map((event, id) => (
+              <EventRow
+                location="SCET"
+                name={event['name']}
+                timestamp={event.startTimestamp}
+                key={id}
+              />
+            ))}
           </Stack>
         </Flex>
       </Flex>
