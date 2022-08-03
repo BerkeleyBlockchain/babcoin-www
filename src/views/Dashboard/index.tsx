@@ -1,13 +1,10 @@
 import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
-import NftGallery from './components/NftGallery'
-import { useAccount } from 'wagmi'
+
 import useDatabase from 'contexts/database/useDatabase'
+import NftGallery from './components/NftGallery'
 import ProgressBox from './components/ProgressBox'
-import { useEffect, useState } from 'react'
 
 const Dashboard = () => {
-  const address = useAccount().address
-
   // Get the events that the user has attended
   const { attendedEvents } = useDatabase()
 
