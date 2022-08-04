@@ -28,7 +28,7 @@ const TopBar = () => {
 
   return (
     <>
-      <Box bg="black" px="15px" pt="19px">
+      <Box bg="black" px="16px" pt="16px">
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <Flex alignItems="center" onClick={() => navigate('/')}>
             <Logo height="36px" width="36px" />
