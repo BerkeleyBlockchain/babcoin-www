@@ -21,16 +21,7 @@ export const App = () => {
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="events" element={<Outlet />}>
-            <Route
-              path=":id"
-              element={
-                <Event
-                  location="SCET"
-                  name="Clubcesus #1"
-                  timestamp={1657629000000}
-                />
-              }
-            />
+            <Route path=":id" element={<Event />} />
           </Route>
           <Route path="onboarding" element={<Onboarding />} />
         </Route>

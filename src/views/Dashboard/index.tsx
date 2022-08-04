@@ -10,13 +10,13 @@ const Dashboard = () => {
   const { attendedEvents, events } = useDatabase()
 
   const attendedEventsNames: string[] = []
-  for (let i = 0; i < attendedEvents.length; i++) {
-    for (let j = 0; j < events.length; j++) {
-      if (attendedEvents[i]['_id'] === events[j]['_id']) {
-        attendedEventsNames.push(events[j]['name'])
-      }
-    }
-  }
+  // for (let i = 0; i < attendedEvents.length; i++) {
+  //   for (let j = 0; j < events.length; j++) {
+  //     if (attendedEvents[i]['_id'] === events[j]['_id']) {
+  //       attendedEventsNames.push(events[j]['name'])
+  //     }
+  //   }
+  // }
 
   return (
     <Flex

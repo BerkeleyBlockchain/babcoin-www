@@ -1,19 +1,14 @@
 import { Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 
-type Props = {
+export type EventProps = {
+  id: number
   location: string
   name: string
-  id?: string
-  timestamp?: number
+  timestamp: number
 }
 
-const EventRow: React.FC<Props> = ({
-  location,
-  name,
-  id = '312',
-  timestamp = 1657628971211,
-}) => {
+const EventRow: React.FC<EventProps> = ({ location, name, id, timestamp }) => {
   const navigate = useNavigate()
 
   const date = new Date(timestamp)

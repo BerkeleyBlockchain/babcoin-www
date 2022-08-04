@@ -1,6 +1,7 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { createIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { createIcon, HamburgerIcon, Icon } from '@chakra-ui/icons'
+import { FiMenu } from 'react-icons/fi'
 import {
   Box,
   Center,
@@ -84,7 +85,7 @@ const TopBar = (props: Props) => {
             <MenuButton
               as={IconButton}
               aria-label="Options"
-              icon={<HamburgerIcon />}
+              icon={<Icon as={FiMenu} />}
               variant="ghost"
             />
             <MenuList bg="#fecb33" color="black">
