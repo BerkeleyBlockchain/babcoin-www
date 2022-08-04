@@ -6,7 +6,6 @@ import useDatabase from 'contexts/database/useDatabase'
 import EventRow from './components/EventRow'
 
 const Home = () => {
-  // 6. Use the context to get the state variable
   const { events } = useDatabase()
 
   return (
@@ -25,28 +24,14 @@ const Home = () => {
           width="100%"
           overflow="auto"
           justifyContent="space-between"
-          style={
-            {
-              // background: 'rgba(255, 255, 255, 0.2)',
-              // borderRadius: '16px',
-              // boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-              // backdropFilter: 'blur(5px)',
-              // border: '1px solid rgba(255, 255, 255, 0.3)',
-            }
-          }
         >
-          {/* <Box height="0" /> */}
-          {/* <Box paddingBottom="24px">
-            <Heading fontSize={68}>Pull Up</Heading>
-            <Heading fontSize={68}>Right Now</Heading>
-          </Box> */}
-          {/* NOTE: shouldn't location be added to the events endpoint response? */}
           <Stack gap="12px">
-            {events.map((event, id) => (
+            {Object.values(events).map((event, id) => (
               <EventRow
                 location="SCET"
                 name={event['name']}
                 timestamp={event.startTimestamp}
+                id={event._id}
                 key={id}
               />
             ))}

@@ -3,7 +3,13 @@ import { useCallback, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 
 import DatabaseContext from './DatabaseContext'
-import { AttendedEvents, Event } from './types'
+import {
+  AttendedEvents,
+  AttendEventRequest,
+  CreateUserRequest,
+  Event,
+  IdToEventMap,
+} from './types'
 
 interface Props {
   children: React.ReactNode
@@ -14,22 +20,39 @@ const BASE_URL = 'https://babcoin-backend.herokuapp.com/v1'
 const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const address = useAccount().address
   const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
-  const [events, setEvents] = useState<Event[]>([])
+  const [events, setEvents] = useState<IdToEventMap>({})
 
-  const handleCreateUser = useCallback(
-    async (name: string, email: string) => {
-      const res = await fetch(`${BASE_URL}/user/newUser`, {
+  const handleAttendEvent = useCallback(
+    async (eventId: string) => {
+      const res = await fetch(`${BASE_URL}/user/attend-event`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
-          email,
-          address,
-        }),
+          address: address?.toLowerCase(),
+          eventId,
+        } as AttendEventRequest),
       }).then((res) => res.json())
-      console.log(res)
+    },
+    [address],
+  )
+
+  const handleCreateUser = useCallback(
+    async (name: string, email: string) => {
+      const res = await fetch(`${BASE_URL}/user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: name,
+          lastName: 'Last Name',
+          email,
+          address: address?.toLowerCase(),
+          role: 'admin',
+        } as CreateUserRequest),
+      }).then((res) => res.json())
     },
     [address],
   )
@@ -42,26 +65,17 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   }, [address])
 
   const handleFetchEvents = useCallback(async () => {
-    const res = await fetch(`${BASE_URL}/event`).then((res) => res.json())
-    setEvents(res as Event[])
+    const res = await fetch(`${BASE_URL}/event`)
+      .then((res) => res.json())
+      .then((res) => res as Event[])
+      .then((res) =>
+        res.reduce((acc: IdToEventMap, curr) => {
+          acc[curr._id] = curr
+          return acc
+        }, {}),
+      )
+    setEvents(res)
   }, [])
-
-  const handleMint = useCallback(
-    async (eventId: string) => {
-      const res = await fetch(`${BASE_URL}/user/attendEvent`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          address,
-          eventId,
-        }),
-      }).then((res) => res.json())
-      console.log(res)
-    },
-    [address],
-  )
 
   useEffect(() => {
     handleFetchAttendedEvents()
@@ -76,7 +90,7 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
       value={{
         attendedEvents,
         events,
-        onMint: handleMint,
+        onAttendEvent: handleAttendEvent,
         onCreateUser: handleCreateUser,
       }}
     >

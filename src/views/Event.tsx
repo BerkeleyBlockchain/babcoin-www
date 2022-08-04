@@ -1,33 +1,29 @@
-import { ArrowBackIcon } from '@chakra-ui/icons'
+import { Icon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
   Flex,
   Heading,
+  IconButton,
   Spacer,
   Stack,
   Text,
 } from '@chakra-ui/react'
+import { FiHome } from 'react-icons/fi'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import useDatabase from 'contexts/database/useDatabase'
-import { useNavigate } from 'react-router-dom'
 
-type Props = {
-  location: string
-  name: string
-  id?: string
-  timestamp?: number
-}
-
-const Event: React.FC<Props> = ({
-  location,
-  name,
-  id = '312',
-  timestamp = 1657628971211,
-}) => {
-  const { onMint } = useDatabase()
+const Event: React.FC = () => {
   const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>()
+  const { events, onAttendEvent } = useDatabase()
 
-  const date = new Date(timestamp)
+  if (!id) return null
+
+  const event = events[id]
+
+  const date = new Date(event.startTimestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
   const timeString = `${date.getHours()}:${date.getMinutes()}`
   const pm = date.getHours() >= 12
@@ -40,20 +36,11 @@ const Event: React.FC<Props> = ({
       right="16px"
       minHeight="calc(100vh - 84px)"
     >
-      <Button
-        colorScheme="gray"
-        leftIcon={<ArrowBackIcon />}
-        onClick={() => navigate('/')}
-        variant="outline"
-        width="108px"
-      >
-        Home
-      </Button>
       <Box height="108px" />
       <Stack spacing="12px">
-        <Heading size="3xl">Club Census #1</Heading>
+        <Heading size="3xl">{event.name}</Heading>
         <Text color="#7C7C7C" fontWeight="semibold">
-          {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${location}`}
+          {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${'Update'}`}
         </Text>
         <Text>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed sem
@@ -62,16 +49,23 @@ const Event: React.FC<Props> = ({
       </Stack>
       <Spacer />
 
-      <Button
-        backgroundColor="white"
-        borderRadius="12px"
-        color="black"
-        onClick={() => onMint(id)}
-        width="100%"
-      >
-        Mint
-      </Button>
-      <Box height="6px" />
+      <Flex gap="16px">
+        <IconButton
+          aria-label=""
+          icon={<Icon as={FiHome} />}
+          onClick={() => navigate('/')}
+        />
+        <Button
+          backgroundColor="white"
+          borderRadius="12px"
+          color="black"
+          flex={1}
+          onClick={() => onAttendEvent(id?.toString())}
+        >
+          Mint
+        </Button>
+      </Flex>
+      <Box height="16px" />
     </Flex>
   )
 }

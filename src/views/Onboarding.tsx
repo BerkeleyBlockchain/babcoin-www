@@ -15,77 +15,44 @@ const Onboarding = () => {
 
   const handleSubmit = useCallback(async () => {
     onCreateUser(name, email)
-    navigate('/dashboard')
-  }, [email, name, navigate, onCreateUser])
+    // navigate('/dashboard')
+  }, [email, name, onCreateUser])
 
   return (
     <div>
-      {nextClicked ? (
-        <Flex
-          flexDirection="column"
-          left="16px"
-          position="absolute"
-          right="16px"
+      <Flex flexDirection="column" left="16px" position="absolute" right="16px">
+        <Box height="44px" />
+        <Text fontSize="50px" fontWeight="bold">
+          Welcome aboard!
+        </Text>
+        <Box height="24px" />
+        <Input
+          borderColor="#8D9093"
+          placeholder="Name"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <Box height="24px" />
+        <Input
+          borderColor="#8D9093"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <Box height="24px" />
+        <Center>
+          <ConnectButton label="Connect Wallet" />
+        </Center>
+        <Box height="24px" />
+        <Button
+          backgroundColor="white"
+          borderRadius="12px"
+          color="black"
+          onClick={handleSubmit}
         >
-          <Box height="44px" />
-          <Text fontSize="50px" fontWeight="bold">
-            What's your email?
-          </Text>
-          <Box height="24px" />
-          <Input
-            borderColor="#8D9093"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <Box height="24px" />
-          <Center>
-            <ConnectButton label="Connect Wallet" />
-          </Center>
-          <Box height="24px" />
-          {/* NOTE: the submit button looks greyed out after clicking next - perhaps the state is saved from the previous click? */}
-          <Button
-            backgroundColor="white"
-            borderRadius="12px"
-            color="black"
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-        </Flex>
-      ) : (
-        <Flex
-          flexDirection="column"
-          left="16px"
-          position="absolute"
-          right="16px"
-        >
-          <Box height="44px" />
-          <Text fontSize="50px" fontWeight="bold">
-            What's your name?
-          </Text>
-          <Box height="24px" />
-          <Input
-            borderColor="#8D9093"
-            placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-          />
-          <Box height="24px" />
-          <Center>
-            <ConnectButton label="Connect Wallet" />
-          </Center>
-          <Box height="24px" />
-          <Button
-            backgroundColor="white"
-            borderRadius="12px"
-            color="black"
-            onClick={() => setNextClicked(true)}
-          >
-            Next
-          </Button>
-        </Flex>
-      )}
+          Submit
+        </Button>
+      </Flex>
     </div>
   )
 }
