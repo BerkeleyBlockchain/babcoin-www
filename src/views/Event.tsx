@@ -48,7 +48,6 @@ const Event: React.FC = () => {
         </Text>
       </Stack>
       <Spacer />
-
       <Flex gap="16px">
         <IconButton
           aria-label=""
