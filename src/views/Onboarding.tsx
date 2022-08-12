@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import useDatabase from 'contexts/database/useDatabase'
 
 const Onboarding = () => {
-  const { onCreateUser } = useDatabase()
+  const { onCreateUser, onLogInUser } = useDatabase()
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')

@@ -17,8 +17,7 @@ export interface AttendEventRequest {
 }
 
 export interface CreateUserRequest {
-  firstName: string
-  lastName: string
+  name: string
   email: string
   address: string
   role: Role
