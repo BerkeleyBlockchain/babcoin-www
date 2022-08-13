@@ -16,8 +16,8 @@ interface Props {
   children: React.ReactNode
 }
 
-const BASE_URL = 'https://babcoin-backend.herokuapp.com/v1'
-// const BASE_URL = 'http://localhost:4000/v1'
+// const BASE_URL = 'https://babcoin-backend.herokuapp.com/v1'
+const BASE_URL = 'http://localhost:4000/v1'
 
 const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate()
@@ -44,9 +44,15 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
         setNonce(res[0].nonce)
       }
     },
-    onDisconnect() {
+    onDisconnect: async () => {
       console.log('Disconnected')
-      // Kill the JWT stuff
+      const res = await fetch(`${BASE_URL}/user/attend-event`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + jwt,
+        },
+      }).then((res) => res.json())
     },
   }).address
 
