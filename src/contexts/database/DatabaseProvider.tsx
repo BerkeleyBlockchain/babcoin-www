@@ -11,6 +11,7 @@ import {
   Event,
   IdToEventMap,
 } from './types'
+import { useToast } from '@chakra-ui/react'
 
 interface Props {
   children: React.ReactNode
@@ -23,9 +24,11 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate()
   const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
   const [events, setEvents] = useState<IdToEventMap>({})
-  const [jwt, setJWT] = useState('???????????????????????????????????????????')
+  const [jwt, setJWT] = useState('')
   const [nonce, setNonce] = useState(-1)
   const [message, setMessage] = useState('')
+  const toast = useToast()
+  const [error, setError] = useState('')
   const { signMessageAsync } = useSignMessage({
     message,
   })
@@ -37,16 +40,23 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
         (res) => res.json(),
       )
       console.log(res)
-      if (res.error || res.length < 1) {
+      if (res.error) {
+        setError(res.error)
+      } else if (res.length < 1) {
         navigate('/onboarding')
       } else {
-        // console.log('user found')
         setNonce(res[0].nonce)
       }
     },
-    onDisconnect() {
+    onDisconnect: async () => {
       console.log('Disconnected')
-      // Kill the JWT stuff
+      const res = await fetch(`${BASE_URL}/user/attend-event`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + jwt,
+        },
+      }).then((res) => res.json())
     },
   }).address
 
@@ -65,7 +75,12 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
           address: address?.toLowerCase(),
           eventId,
         } as AttendEventRequest),
-      }).then((res) => res.json())
+      })
+        .then((res) => res.json())
+        .catch((err) => {
+          console.log(err)
+          setError(err.message)
+        })
       console.log(res)
     },
     [address, jwt],
@@ -84,7 +99,12 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
           address: address?.toLowerCase(),
           role: 'admin',
         } as CreateUserRequest),
-      }).then((res) => res.json())
+      })
+        .then((res) => res.json())
+        .catch((err) => {
+          console.log(err)
+          setError(err.message)
+        })
 
       setNonce(res.nonce)
     },
@@ -97,25 +117,28 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
       return
     }
 
-    const signature = await signMessageAsync()
-    const res = await fetch(`${BASE_URL}/user/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        address: address?.toLowerCase(),
-        signature,
-      }),
-    }).then((res) => res.json())
-    if (!res.error) {
+    try {
+      const signature = await signMessageAsync()
+      const res = await fetch(`${BASE_URL}/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          address: address?.toLowerCase(),
+          signature,
+        }),
+      }).then((res) => res.json())
+
       console.log(res.token)
       setJWT(res.token)
+    } catch (err: any) {
+      setError(err.message as string)
     }
   }, [address, signMessageAsync, message])
 
   const handleFetchAttendedEvents = useCallback(async () => {
-    const res = await fetch(`${BASE_URL}/events?address=${address}`).then(
+    const res = await fetch(`${BASE_URL}/user/events?address=${address}`).then(
       (res) => res.json(),
     )
     setAttendedEvents(res as AttendedEvents[])
@@ -149,6 +172,17 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     setMessage(`I am signing my one-time nonce: ${nonce}`)
   }, [nonce])
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: 'Error',
+        status: 'error',
+        description: error,
+        isClosable: true,
+      })
+    }
+  }, [error, toast])
 
   return (
     <DatabaseContext.Provider
