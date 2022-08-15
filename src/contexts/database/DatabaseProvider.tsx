@@ -24,6 +24,9 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate()
   const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
   const [events, setEvents] = useState<IdToEventMap>({})
+  const [allEvents, setAllEvents] = useState<Event[]>([])
+
+
   const [jwt, setJWT] = useState('')
   const [nonce, setNonce] = useState(-1)
   const [message, setMessage] = useState('')
@@ -157,6 +160,17 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
     setEvents(res)
   }, [])
 
+  const handleFetchAllEvents = useCallback(async () => {
+    const res = await fetch(`${BASE_URL}/event`)
+    .then((res) => res.json())
+    .then((res) => res as Event[])
+  setAllEvents(res)
+}, [])
+
+  useEffect(() => {
+    handleFetchAllEvents()
+  }, [handleFetchAllEvents])
+
   useEffect(() => {
     handleFetchAttendedEvents()
   }, [handleFetchAttendedEvents])
@@ -189,10 +203,12 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
       value={{
         attendedEvents,
         events,
+        allEvents,
         jwt,
         onAttendEvent: handleAttendEvent,
         onCreateUser: handleCreateUser,
         onLogInUser: handleLogInUser,
+        onFetchAllEvents: handleFetchAllEvents,
       }}
     >
       {children}
