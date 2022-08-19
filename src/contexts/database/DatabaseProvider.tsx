@@ -26,7 +26,6 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const [events, setEvents] = useState<IdToEventMap>({})
   const [allEvents, setAllEvents] = useState<Event[]>([])
 
-
   const [jwt, setJWT] = useState('')
   const [nonce, setNonce] = useState(-1)
   const [message, setMessage] = useState('')
@@ -138,7 +137,7 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
     } catch (err: any) {
       setError(err.message as string)
     }
-  }, [address, signMessageAsync, message])
+  }, [nonce, signMessageAsync, address])
 
   const handleFetchAttendedEvents = useCallback(async () => {
     const res = await fetch(`${BASE_URL}/user/events?address=${address}`).then(
@@ -162,10 +161,10 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
 
   const handleFetchAllEvents = useCallback(async () => {
     const res = await fetch(`${BASE_URL}/event`)
-    .then((res) => res.json())
-    .then((res) => res as Event[])
-  setAllEvents(res)
-}, [])
+      .then((res) => res.json())
+      .then((res) => res as Event[])
+    setAllEvents(res)
+  }, [])
 
   useEffect(() => {
     handleFetchAllEvents()
