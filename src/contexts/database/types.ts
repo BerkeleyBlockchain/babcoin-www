@@ -1,3 +1,9 @@
+export interface Requirement {
+  _id: string
+  type: 'clubcensus' | 'external' | 'allhands'
+  amount: string
+}
+
 export interface AttendedEvents {
   endTimestamp: number
   imageUrl: string

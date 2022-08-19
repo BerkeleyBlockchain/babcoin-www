@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { useAccount, useSignMessage } from 'wagmi'
 import { useNavigate } from 'react-router-dom'
+import { useAccount, useSignMessage } from 'wagmi'
 
+import { useToast } from '@chakra-ui/react'
 import DatabaseContext from './DatabaseContext'
 import {
   AttendedEvents,
@@ -10,8 +11,8 @@ import {
   CreateUserRequest,
   Event,
   IdToEventMap,
+  Requirement,
 } from './types'
-import { useToast } from '@chakra-ui/react'
 
 interface Props {
   children: React.ReactNode
@@ -25,6 +26,7 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
   const [events, setEvents] = useState<IdToEventMap>({})
   const [allEvents, setAllEvents] = useState<Event[]>([])
+  const [requirements, setRequirements] = useState<Requirement[]>([])
 
   const [jwt, setJWT] = useState('')
   const [nonce, setNonce] = useState(-1)
@@ -166,6 +168,13 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
     setAllEvents(res)
   }, [])
 
+  const handleFetchRequirements = useCallback(async () => {
+    const res = await fetch(`${BASE_URL}/requirement`)
+      .then((res) => res.json())
+      .then((res) => res as Requirement[])
+    setRequirements(res)
+  }, [])
+
   useEffect(() => {
     handleFetchAllEvents()
   }, [handleFetchAllEvents])
@@ -181,6 +190,10 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     handleLogInUser()
   }, [handleLogInUser, nonce])
+
+  useEffect(() => {
+    handleFetchRequirements()
+  }, [handleFetchRequirements])
 
   useEffect(() => {
     setMessage(`I am signing my one-time nonce: ${nonce}`)
@@ -203,6 +216,7 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
         attendedEvents,
         events,
         allEvents,
+        requirements,
         jwt,
         onAttendEvent: handleAttendEvent,
         onCreateUser: handleCreateUser,
