@@ -5,11 +5,10 @@ import { Outlet, Route, Routes } from 'react-router-dom'
 import Dashboard from 'views/Dashboard'
 import Event from 'views/Event'
 import Home from 'views/Home'
+import Peek from 'views/Peek'
 import Onboarding from 'views/Onboarding'
 
 import '@rainbow-me/rainbowkit/styles.css'
-
-// const Events = () => <Outlet />
 
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
@@ -22,6 +21,9 @@ export const App = () => {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="events" element={<Outlet />}>
             <Route path=":id" element={<Event />} />
+          </Route>
+          <Route path="peek" element={<Outlet />}>
+            <Route path=":address" element={<Peek />} />
           </Route>
           <Route path="onboarding" element={<Onboarding />} />
         </Route>
