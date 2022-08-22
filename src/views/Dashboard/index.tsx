@@ -7,23 +7,12 @@ import ProgressBox from './components/ProgressBox'
 
 const Dashboard = () => {
   const { address } = useAccount()
+  // TODO: need attended events
   const {} = useDatabase()
   const { requirements } = useDatabase()
-  console.log('🚀 ~ Dashboard ~ requirements', requirements)
 
   return (
-    <Flex
-      flexDirection="column"
-      left="16px"
-      position="absolute"
-      right="16px"
-      sx={
-        {
-          // 'max-width': '100%',
-          // 'overflow-x': 'hidden',
-        }
-      }
-    >
+    <Flex flexDirection="column" left="16px" position="absolute" right="16px">
       <Box height="44px" />
       <Text fontSize="50px" fontWeight="bold">
         Membership
