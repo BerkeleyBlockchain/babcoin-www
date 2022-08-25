@@ -3,10 +3,12 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { FiChevronDown, FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
 
 import useDatabase from 'contexts/database/useDatabase'
+import useUser from 'contexts/user/useUser'
 import EventRow from './components/EventRow'
 
 const Home = () => {
-  const { events, jwt } = useDatabase()
+  const { events } = useDatabase()
+  const { jwt } = useUser()
 
   return (
     <>

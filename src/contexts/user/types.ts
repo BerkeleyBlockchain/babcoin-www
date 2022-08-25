@@ -11,6 +11,20 @@ export interface AttendedEvents {
   _id: number
 }
 
+export interface AttendEventRequest {
+  address: string
+  eventId: string
+}
+
+export interface CreateUserRequest {
+  name: string
+  email: string
+  address: string
+  role: Role
+}
+
+type Role = 'admin' | 'user'
+
 export interface Event {
   id: any
   endTimestamp: number

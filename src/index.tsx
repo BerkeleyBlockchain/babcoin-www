@@ -14,6 +14,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 
 import DatabaseProvider from 'contexts/database'
+import UserProvider from 'contexts/user'
 
 import { App } from './App'
 import theme from './theme'
@@ -70,7 +71,9 @@ root.render(
             })}
           >
             <DatabaseProvider>
-              <App />
+              <UserProvider>
+                <App />
+              </UserProvider>
             </DatabaseProvider>
           </RainbowKitProvider>
         </WagmiConfig>

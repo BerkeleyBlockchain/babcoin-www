@@ -13,11 +13,13 @@ import { FiHome } from 'react-icons/fi'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import useDatabase from 'contexts/database/useDatabase'
+import useUser from 'contexts/user/useUser'
 
 const Event: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const { events, onAttendEvent } = useDatabase()
+  const { events } = useDatabase()
+  const { onAttendEvent } = useUser()
 
   if (!id) return null
 

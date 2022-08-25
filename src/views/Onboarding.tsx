@@ -13,10 +13,10 @@ import {
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useNavigate } from 'react-router-dom'
 
-import useDatabase from 'contexts/database/useDatabase'
+import useUser from 'contexts/user/useUser'
 
 const Onboarding = () => {
-  const { onCreateUser, onLogInUser } = useDatabase()
+  const { onCreateUser, onLogInUser } = useUser()
   const navigate = useNavigate()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
