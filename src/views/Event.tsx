@@ -18,12 +18,14 @@ import useUser from 'contexts/user/useUser'
 const Event: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const { events } = useDatabase()
+  const { events, attendedEvents } = useDatabase()
   const { onAttendEvent } = useUser()
 
   if (!id) return null
 
   const event = events[id]
+  const attended =
+    attendedEvents.filter((record) => record._id.toString() === id).length > 0
 
   const date = new Date(event.startTimestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
@@ -62,8 +64,9 @@ const Event: React.FC = () => {
           color="black"
           flex={1}
           onClick={() => onAttendEvent(id?.toString())}
+          isDisabled={attended}
         >
-          Mint
+          {!attended ? 'Mint' : 'Already Attended'}
         </Button>
       </Flex>
       <Box height="16px" />
