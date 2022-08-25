@@ -31,11 +31,16 @@ const UserProvider: React.FC<Props> = ({ children }) => {
       const res = await fetch(`${BASE_URL}/user/?address=${address}`).then(
         (res) => res.json(),
       )
+
+      const jwt = localStorage.getItem('jwt')
+
       console.log(res)
       if (res.error) {
         setError(res.error)
       } else if (res.length < 1) {
         navigate('/onboarding')
+      } else if (jwt) {
+        setJWT(jwt)
       } else {
         setNonce(res[0].nonce)
       }
@@ -49,6 +54,7 @@ const UserProvider: React.FC<Props> = ({ children }) => {
           Authorization: 'Bearer ' + jwt,
         },
       }).then((res) => res.json())
+      localStorage.setItem('jwt', '')
     },
   }).address
 
@@ -123,6 +129,8 @@ const UserProvider: React.FC<Props> = ({ children }) => {
       }).then((res) => res.json())
 
       console.log(res.token)
+      localStorage.setItem('jwt', JSON.stringify(res.token))
+
       setJWT(res.token)
     } catch (err: any) {
       setError(err.message as string)
