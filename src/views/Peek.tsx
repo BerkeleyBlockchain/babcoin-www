@@ -5,7 +5,6 @@ import NftGallery from './Dashboard/components/NftGallery'
 const Peek: React.FC = () => {
   const navigate = useNavigate()
   const { address } = useParams<{ address: string }>()
-  console.log('🚀 ~ address', address)
   const formattedAddress = address
     ? address.slice(0, 6) + '...' + address.slice(-4)
     : ''

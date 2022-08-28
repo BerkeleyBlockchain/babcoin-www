@@ -11,7 +11,7 @@ type Props = {
   title: string
 }
 
-const ProgressBox: React.FC<Props> = ({ current, max, title }) => {
+const ProgressBox: React.FC<Props> = ({ current = 0, max, title }) => {
   return (
     <Flex
       alignItems="center"
@@ -24,7 +24,9 @@ const ProgressBox: React.FC<Props> = ({ current, max, title }) => {
       width="168px"
       flex={1}
     >
-      <Text fontWeight="bold">{title}</Text>
+      <Text fontWeight="bold" textTransform="capitalize">
+        {title}
+      </Text>
       <CircularProgress
         capIsRound
         color="merkleMango.200"
