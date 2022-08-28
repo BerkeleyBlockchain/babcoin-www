@@ -1,48 +1,39 @@
-import { Box, Flex, Progress, Stack, Text } from '@chakra-ui/react'
+import { useMemo } from 'react'
+
+import { Box, Flex, Text } from '@chakra-ui/react'
+import { useAccount } from 'wagmi'
 
 import useDatabase from 'contexts/database/useDatabase'
-import { useAccount } from 'wagmi'
 import NftGallery from './components/NftGallery'
 import ProgressBox from './components/ProgressBox'
 
 const Dashboard = () => {
   const { address } = useAccount()
-  const { attendedEvents, events } = useDatabase()
+  const { attendedEvents, requirements } = useDatabase()
 
-  const attendedEventsNames: string[] = []
-  // for (let i = 0; i < attendedEvents.length; i++) {
-  //   for (let j = 0; j < events.length; j++) {
-  //     if (attendedEvents[i]['_id'] === events[j]['_id']) {
-  //       attendedEventsNames.push(events[j]['name'])
-  //     }
-  //   }
-  // }
+  const attendedMap = useMemo(() => {
+    const res: { [key in string]: number } = {}
+    Object.values(attendedEvents).forEach((e) => {
+      if (!res[e.type]) res[e.type] = 0
+      res[e.type] = res[e.type] + 1
+    })
+    return res
+  }, [attendedEvents])
 
   return (
-    <Flex
-      flexDirection="column"
-      left="16px"
-      position="absolute"
-      right="16px"
-      sx={
-        {
-          // 'max-width': '100%',
-          // 'overflow-x': 'hidden',
-        }
-      }
-    >
+    <Flex flexDirection="column" left="16px" position="absolute" right="16px">
       <Box height="44px" />
       <Text fontSize="50px" fontWeight="bold">
         Membership
       </Text>
       <Flex flexWrap="wrap" gap="12px">
-        <ProgressBox current={3} max={10} title="Clubcensus" />
-        <ProgressBox current={3} max={5} title="Dept Meetings" />
-        <ProgressBox current={12} max={15} title="Socials" />
-      </Flex>
-      <Flex flexWrap="wrap" gap="12px">
-        {attendedEventsNames.map((event, id) => (
-          <ProgressBox current={3} max={10} title={event} />
+        {requirements.map((requirement) => (
+          <ProgressBox
+            current={attendedMap[requirement.type]}
+            key={requirement._id}
+            max={requirement.amount}
+            title={requirement.type}
+          />
         ))}
       </Flex>
       <Box height="72px" />

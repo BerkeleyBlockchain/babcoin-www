@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 
 import DatabaseContext from './DatabaseContext'
-import { AttendedEvents, Event, IdToEventMap } from './types'
+import { AttendedEvents, Event, IdToEventMap, Requirement } from './types'
 
 interface Props {
   children: React.ReactNode
@@ -15,6 +15,7 @@ const BASE_URL = 'https://babcoin-backend.herokuapp.com/v1'
 const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
   const [events, setEvents] = useState<IdToEventMap>({})
+  const [requirements, setRequirements] = useState<Requirement[]>([])
 
   const address = useAccount().address
 
@@ -41,6 +42,13 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
     setEvents(res)
   }, [])
 
+  const handleFetchRequirements = useCallback(async () => {
+    const res = await fetch(`${BASE_URL}/requirement`)
+      .then((res) => res.json())
+      .then((res) => res as Requirement[])
+    setRequirements(res)
+  }, [])
+
   useEffect(() => {
     handleFetchAttendedEvents()
   }, [handleFetchAttendedEvents])
@@ -49,11 +57,16 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
     handleFetchEvents()
   }, [handleFetchEvents])
 
+  useEffect(() => {
+    handleFetchRequirements()
+  }, [handleFetchRequirements])
+
   return (
     <DatabaseContext.Provider
       value={{
         attendedEvents,
         events,
+        requirements,
       }}
     >
       {children}
