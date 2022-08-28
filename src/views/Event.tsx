@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Icon } from '@chakra-ui/icons'
 import {
   Box,
@@ -21,11 +22,16 @@ const Event: React.FC = () => {
   const { events, attendedEvents } = useDatabase()
   const { onAttendEvent } = useUser()
 
+  const attended = useMemo(() => {
+    if (!attendedEvents.length) return
+    return (
+      attendedEvents.filter((record) => record._id.toString() === id).length > 0
+    )
+  }, [attendedEvents, id])
+
   if (!id) return null
 
   const event = events[id]
-  const attended =
-    attendedEvents.filter((record) => record._id.toString() === id).length > 0
 
   const date = new Date(event.startTimestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`

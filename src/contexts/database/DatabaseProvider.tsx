@@ -67,6 +67,7 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
         attendedEvents,
         events,
         requirements,
+        onFetchAttendedEvents: handleFetchAttendedEvents,
       }}
     >
       {children}

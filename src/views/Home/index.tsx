@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { Box, Flex, Stack } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
@@ -5,7 +7,11 @@ import useDatabase from 'contexts/database/useDatabase'
 import EventRow from './components/EventRow'
 
 const Home = () => {
-  const { events } = useDatabase()
+  const { events, onFetchAttendedEvents } = useDatabase()
+
+  useEffect(() => {
+    onFetchAttendedEvents()
+  }, [onFetchAttendedEvents])
 
   return (
     <>
