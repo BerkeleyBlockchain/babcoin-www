@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Icon } from '@chakra-ui/icons'
 import {
   Box,
@@ -19,7 +19,7 @@ import useUser from 'contexts/user/useUser'
 const Event: React.FC = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
-  const { events, attendedEvents } = useDatabase()
+  const { events, attendedEvents, onFetchAttendedEvents } = useDatabase()
   const { onAttendEvent } = useUser()
 
   const attended = useMemo(() => {
@@ -28,6 +28,14 @@ const Event: React.FC = () => {
       attendedEvents.filter((record) => record._id.toString() === id).length > 0
     )
   }, [attendedEvents, id])
+
+  const handleAttendEvent = useCallback(
+    (id: string) => {
+      onAttendEvent(id)
+      onFetchAttendedEvents()
+    },
+    [onAttendEvent, onFetchAttendedEvents],
+  )
 
   if (!id) return null
 
@@ -69,7 +77,7 @@ const Event: React.FC = () => {
           borderRadius="12px"
           color="black"
           flex={1}
-          onClick={() => onAttendEvent(id?.toString())}
+          onClick={() => handleAttendEvent(id)}
           isDisabled={attended}
         >
           {!attended ? 'Mint' : 'Already Attended'}

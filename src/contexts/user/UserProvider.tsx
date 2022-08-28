@@ -79,7 +79,6 @@ const UserProvider: React.FC<Props> = ({ children }) => {
           setError(err.message)
         })
       console.log(res)
-      window.location.reload()
     },
     [address, jwt],
   )
