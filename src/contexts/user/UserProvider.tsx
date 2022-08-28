@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { useAccount, useSignMessage } from 'wagmi'
 import { useNavigate } from 'react-router-dom'
+import { useAccount, useSignMessage } from 'wagmi'
 
-import UserContext from './UserContext'
-import { AttendEventRequest, CreateUserRequest } from './types'
 import { useToast } from '@chakra-ui/react'
+import { AttendEventRequest, CreateUserRequest } from './types'
+import UserContext from './UserContext'
 
 interface Props {
   children: React.ReactNode
@@ -18,11 +18,10 @@ const UserProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate()
   const [jwt, setJWT] = useState('')
   const [nonce, setNonce] = useState(-1)
-  const [message, setMessage] = useState('')
   const toast = useToast()
   const [error, setError] = useState('')
   const { signMessageAsync } = useSignMessage({
-    message,
+    message: '',
   })
 
   const address = useAccount({
@@ -135,15 +134,15 @@ const UserProvider: React.FC<Props> = ({ children }) => {
     } catch (err: any) {
       setError(err.message as string)
     }
-  }, [address, signMessageAsync, message])
+  }, [address, nonce, signMessageAsync])
 
-  useEffect(() => {
-    handleLogInUser()
-  }, [handleLogInUser, nonce])
+  // useEffect(() => {
+  //   handleLogInUser()
+  // }, [handleLogInUser])
 
-  useEffect(() => {
-    setMessage(`I am signing my one-time nonce: ${nonce}`)
-  }, [nonce])
+  // useEffect(() => {
+  //   setMessage(`I am signing my one-time nonce: ${nonce}`)
+  // }, [nonce])
 
   useEffect(() => {
     if (error) {

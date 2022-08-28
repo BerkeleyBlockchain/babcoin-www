@@ -1,9 +1,8 @@
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import NftGallery from './Dashboard/components/NftGallery'
 
 const Peek: React.FC = () => {
-  const navigate = useNavigate()
   const { address } = useParams<{ address: string }>()
   const formattedAddress = address
     ? address.slice(0, 6) + '...' + address.slice(-4)
