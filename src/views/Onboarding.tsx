@@ -23,7 +23,7 @@ const Onboarding = () => {
 
   const handleSubmit = useCallback(async () => {
     onCreateUser(name, email)
-    navigate('/dashboard')
+    navigate('/')
   }, [email, name, navigate, onCreateUser])
 
   return (
@@ -46,12 +46,12 @@ const Onboarding = () => {
           onChange={(e) => setName(e.target.value)}
           value={name}
         />
-        <Input
+        {/* <Input
           borderColor="#8D9093"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-        />
+        /> */}
         <Center>
           <ConnectButton label="Connect Wallet" />
         </Center>
@@ -65,6 +65,7 @@ const Onboarding = () => {
       >
         Submit
       </Button>
+      <Box height="16px" />
     </Flex>
   )
 }
