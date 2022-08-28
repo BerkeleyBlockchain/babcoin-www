@@ -62,7 +62,11 @@ const NftGallery: React.FC<Props> = ({ account }) => {
     <Box overflowX="auto" whiteSpace="nowrap">
       <HStack spacing="25px">
         {Object.values(metadata).map((metadata) => (
-          <Image src={metadata.image || fallbackUrl} alt={metadata.name} />
+          <Image
+            alt={metadata.name}
+            key={metadata.image}
+            src={metadata.image || fallbackUrl}
+          />
         ))}
       </HStack>
     </Box>
