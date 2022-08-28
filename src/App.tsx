@@ -1,17 +1,25 @@
-import TopBar from 'components/TopBar'
+import { useEffect } from 'react'
+
+import { useColorMode } from '@chakra-ui/react'
+import '@rainbow-me/rainbowkit/styles.css'
 import ismobilejs from 'ismobilejs'
 import { Outlet, Route, Routes } from 'react-router-dom'
+
+import TopBar from 'components/TopBar'
 
 import Dashboard from 'views/Dashboard'
 import Event from 'views/Event'
 import Home from 'views/Home'
-import Peek from 'views/Peek'
 import Onboarding from 'views/Onboarding'
-
-import '@rainbow-me/rainbowkit/styles.css'
+import Peek from 'views/Peek'
 
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
+  const { colorMode, setColorMode } = useColorMode()
+
+  useEffect(() => {
+    if (colorMode === 'light') setColorMode('dark')
+  }, [colorMode, setColorMode])
 
   if (isMobile) {
     return (
