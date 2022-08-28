@@ -9,7 +9,7 @@ const fallbackUrl =
   'https://ipfs.io/ipfs/QmPxu4fisBPSiVeGYVNoyYQzXoT7dGB2qoN5HH689QG7Dg'
 
 interface Props {
-  account: string
+  account?: string
 }
 
 const NftGallery: React.FC<Props> = ({ account }) => {

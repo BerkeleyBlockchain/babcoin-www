@@ -24,7 +24,7 @@ const Dashboard = () => {
     <Flex flexDirection="column" left="16px" position="absolute" right="16px">
       <Box height="44px" />
       <Text fontSize="50px" fontWeight="bold">
-        Membership
+        Attendance
       </Text>
       <Flex flexWrap="wrap" gap="12px">
         {requirements.map((requirement) => (
@@ -38,11 +38,9 @@ const Dashboard = () => {
       </Flex>
       <Box height="72px" />
       <Text fontSize="50px" fontWeight="bold">
-        Attendance
+        Gallery
       </Text>
-      <NftGallery
-        account={'0xbab0BAe604066BFd4e536Cc1CddfA14D46790E1f' || address}
-      />
+      <NftGallery account={address} />
     </Flex>
   )
 }

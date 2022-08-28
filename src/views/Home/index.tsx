@@ -1,14 +1,11 @@
-import { Box, Flex, Icon, Stack, Text, Tooltip } from '@chakra-ui/react'
+import { Box, Flex, Stack } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { FiChevronDown, FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
 
 import useDatabase from 'contexts/database/useDatabase'
-import useUser from 'contexts/user/useUser'
 import EventRow from './components/EventRow'
 
 const Home = () => {
   const { events } = useDatabase()
-  const { jwt } = useUser()
 
   return (
     <>
@@ -46,15 +43,11 @@ const Home = () => {
         style={{ position: 'fixed', bottom: 'env(safe-area-inset-bottom)' }}
       >
         <Stack alignItems="center" gap="6px">
-          <Stack
-            alignItems="center"
-            direction="row"
-            // gap="2px"
-          >
+          <Stack alignItems="center" direction="row">
             <ConnectButton accountStatus="address" showBalance />
-            <Icon as={jwt ? FiCheckCircle : FiAlertCircle} />
+            {/* <Icon as={jwt ? FiCheckCircle : FiAlertCircle} /> */}
           </Stack>
-          <Stack
+          {/* <Stack
             alignItems="center"
             direction="row"
             gap="2px"
@@ -64,7 +57,7 @@ const Home = () => {
               What's B@BCoin?
             </Text>
             <Icon as={FiChevronDown} />
-          </Stack>
+          </Stack> */}
           <Box height="0" />
         </Stack>
       </Box>
