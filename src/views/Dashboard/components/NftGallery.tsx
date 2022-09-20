@@ -1,5 +1,7 @@
-import { Box, HStack, Image } from '@chakra-ui/react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { Box, Center, HStack, Image, Text } from '@chakra-ui/react'
+
 import { IdToMetadataMap, Metadata, Nfts } from 'types'
 
 const key = '9_w25dPpnMio1K3JY9FifDnL1U7rlaP2'
@@ -14,6 +16,7 @@ interface Props {
 
 const NftGallery: React.FC<Props> = ({ account }) => {
   const [metadata, setMetadata] = useState<IdToMetadataMap>({})
+  console.log('🚀 ~ metadata', metadata)
   const [userNfts, setUserNfts] = useState<Nfts[]>([])
 
   const handleFetchNfts = useCallback(async () => {
@@ -58,8 +61,15 @@ const NftGallery: React.FC<Props> = ({ account }) => {
     handleFetchNfts()
   }, [handleFetchNfts])
 
-  return (
-    <Box overflowX="auto" whiteSpace="nowrap">
+  const Gallery = useMemo(() => {
+    if (!Object.values(metadata).length) {
+      return (
+        <Center paddingTop="12">
+          <Text>View your NFTs here!</Text>
+        </Center>
+      )
+    }
+    return (
       <HStack spacing="25px">
         {Object.values(metadata).map((metadata) => (
           <Image
@@ -69,6 +79,12 @@ const NftGallery: React.FC<Props> = ({ account }) => {
           />
         ))}
       </HStack>
+    )
+  }, [metadata])
+
+  return (
+    <Box overflowX="auto" whiteSpace="nowrap">
+      {Gallery}
     </Box>
   )
 }

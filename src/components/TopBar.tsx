@@ -40,22 +40,24 @@ const TopBar = () => {
               </Text>
             </Heading>
           </Flex>
-          <Menu>
-            <MenuButton
-              as={IconButton}
-              aria-label="Options"
-              icon={<Icon as={FiMenu} />}
-              variant="ghost"
-            />
-            <MenuList bg="#fecb33" color="black">
-              <MenuItem onClick={() => navigate('/')} bg="none">
-                Home
-              </MenuItem>
-              <MenuItem onClick={() => navigate('/dashboard')} bg="none">
-                Dashboard
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          {pathname !== '/onboarding' ? (
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<Icon as={FiMenu} />}
+                variant="ghost"
+              />
+              <MenuList bg="#fecb33" color="black">
+                <MenuItem onClick={() => navigate('/')} bg="none">
+                  Home
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/dashboard')} bg="none">
+                  Dashboard
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          ) : null}
         </Flex>
       </Box>
       {shouldRender ? (
