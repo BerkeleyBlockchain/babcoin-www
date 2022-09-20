@@ -9,6 +9,7 @@ import {
   Spacer,
   Stack,
   Text,
+  Spinner,
 } from '@chakra-ui/react'
 import { FiHome } from 'react-icons/fi'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -16,7 +17,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useDatabase from 'contexts/database/useDatabase'
 import useUser from 'contexts/user/useUser'
 
-const Event: React.FC = () => {
+const Event = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const { events, attendedEvents, onFetchAttendedEvents } = useDatabase()
@@ -40,6 +41,13 @@ const Event: React.FC = () => {
   if (!id) return null
 
   const event = events[id]
+
+  if (!event) {
+    if (Object.keys(events).length > 0) {
+      navigate('/')
+    }
+    return <Spinner />
+  }
 
   const date = new Date(event.startTimestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
@@ -80,7 +88,7 @@ const Event: React.FC = () => {
           onClick={() => handleAttendEvent(id)}
           isDisabled={attended}
         >
-          {!attended ? 'Mint' : 'Already Attended'}
+          {!attended ? 'Attend' : 'Already Attended'}
         </Button>
       </Flex>
       <Box height="16px" />
