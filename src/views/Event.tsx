@@ -51,7 +51,9 @@ const Event = () => {
 
   const date = new Date(event.startTimestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
-  const timeString = `${date.getHours()}:${date.getMinutes()}`
+  const timeString = `${
+    date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
+  }:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`
   const pm = date.getHours() >= 12
 
   return (

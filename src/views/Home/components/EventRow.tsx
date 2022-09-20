@@ -19,7 +19,9 @@ const EventRow: React.FC<EventProps> = ({ location, name, id, timestamp }) => {
 
   const date = new Date(timestamp)
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
-  const timeString = `${date.getHours()}:${date.getMinutes()}`
+  const timeString = `${
+    date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
+  }:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`
   const pm = date.getHours() >= 12
 
   const attended = useMemo(() => {
