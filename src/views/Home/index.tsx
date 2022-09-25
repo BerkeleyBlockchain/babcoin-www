@@ -33,7 +33,7 @@ const Home = () => {
           <Stack gap="12px">
             {Object.values(events).map((event, id) => (
               <EventRow
-                location="SCET"
+                location={event.location}
                 name={event['name']}
                 timestamp={event.startTimestamp}
                 id={event._id}

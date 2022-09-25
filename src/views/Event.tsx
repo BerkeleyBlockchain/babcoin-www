@@ -68,7 +68,9 @@ const Event = () => {
       <Stack spacing="12px">
         <Heading size="3xl">{event.name}</Heading>
         <Text color="#7C7C7C" fontWeight="semibold">
-          {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${'Update'}`}
+          {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${
+            event.location ? event.location : null
+          }`}
         </Text>
         <Text>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed sem

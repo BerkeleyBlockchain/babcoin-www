@@ -100,14 +100,16 @@ const NftGallery: React.FC<Props> = ({ account }) => {
           />
         ))} */}
 
-        {attendedEvents.map((event) => (
-          <Image
-            alt={event.name}
-            key={event.nftArtUrl}
-            src={event.nftArtUrl || fallbackUrl}
-            style={{ width: '80vw', margin: '10vw 15vw 10vw 5vw' }}
-          />
-        ))}
+        {attendedEvents
+          .filter((event) => event.isMinted)
+          .map((event) => (
+            <Image
+              alt={event.name}
+              key={event.nftArtUrl}
+              src={event.nftArtUrl || fallbackUrl}
+              style={{ width: '80vw', margin: '10vw 15vw 10vw 5vw' }}
+            />
+          ))}
       </HStack>
     )
   }, [attendedEvents])

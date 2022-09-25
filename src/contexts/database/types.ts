@@ -25,6 +25,7 @@ export interface Event {
   qrCodeUrl: string
   startTimestamp: number
   type: EventType
+  location: string
   weight: number
   __v: number
   _id: number
