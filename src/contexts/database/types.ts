@@ -27,6 +27,7 @@ export interface Event {
   type: EventType
   location: string
   weight: number
+  description: string
   __v: number
   _id: number
 }

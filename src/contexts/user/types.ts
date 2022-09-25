@@ -23,7 +23,7 @@ export interface CreateUserRequest {
   role: Role
 }
 
-type Role = 'admin' | 'user'
+type Role = 'admin' | 'member' | 'superAdmin'
 
 export interface Event {
   id: any
@@ -35,6 +35,7 @@ export interface Event {
   startTimestamp: number
   type: EventType
   location: string
+  description: string
   weight: number
   __v: number
   _id: number

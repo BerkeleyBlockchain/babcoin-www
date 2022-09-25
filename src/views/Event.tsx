@@ -50,10 +50,14 @@ const Event = () => {
   }
 
   const date = new Date(event.startTimestamp)
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    hour12: true,
+    minute: 'numeric',
+    timeZone: 'America/Los_Angeles',
+  })
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
-  const timeString = `${
-    date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
-  }:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`
+  const timeString = formatter.format(date)
   const pm = date.getHours() >= 12
 
   return (
@@ -68,14 +72,11 @@ const Event = () => {
       <Stack spacing="12px">
         <Heading size="3xl">{event.name}</Heading>
         <Text color="#7C7C7C" fontWeight="semibold">
-          {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${
+          {`${dateString} | ${timeString} | ${
             event.location ? event.location : null
           }`}
         </Text>
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed sem
-          condimentum, tincidunt erat vitae, auctor mauris.
-        </Text>
+        <Text>{event.description}</Text>
       </Stack>
       <Spacer />
       <Flex gap="16px">

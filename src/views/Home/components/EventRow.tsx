@@ -18,11 +18,15 @@ const EventRow: React.FC<EventProps> = ({ location, name, id, timestamp }) => {
   const navigate = useNavigate()
 
   const date = new Date(timestamp)
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    hour12: true,
+    minute: 'numeric',
+    timeZone: 'America/Los_Angeles',
+  })
+
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
-  const timeString = `${
-    date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
-  }:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`
-  const pm = date.getHours() >= 12
+  const timeString = formatter.format(date)
 
   const attended = useMemo(() => {
     if (!attendedEvents.length) return
@@ -39,7 +43,7 @@ const EventRow: React.FC<EventProps> = ({ location, name, id, timestamp }) => {
           {name}
         </Text>
         <Text color="#7C7C7C" fontWeight="semibold">
-          {`${dateString} | ${timeString} ${pm ? 'pm' : 'am'} | ${location}`}
+          {`${dateString} | ${timeString} | ${location}`}
         </Text>
       </div>
       <Spacer />
