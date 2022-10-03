@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-
 import { useAccount } from 'wagmi'
 
 import DatabaseContext from './DatabaseContext'

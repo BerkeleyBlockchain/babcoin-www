@@ -18,9 +18,11 @@ import { useAccount } from 'wagmi'
 
 // @ts-ignore
 import { ReactComponent as Logo } from 'assets/logo.svg'
+import useUser from 'contexts/user/useUser'
 
 const TopBar = () => {
   const { status } = useAccount()
+  const { isAdmin } = useUser()
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
@@ -55,6 +57,11 @@ const TopBar = () => {
                 <MenuItem onClick={() => navigate('/dashboard')} bg="none">
                   Dashboard
                 </MenuItem>
+                {isAdmin && (
+                  <MenuItem onClick={() => navigate('/newevent')} bg="none">
+                    Create New Event
+                  </MenuItem>
+                )}
               </MenuList>
             </Menu>
           ) : null}

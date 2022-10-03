@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-
 import { useNavigate } from 'react-router-dom'
 import { useAccount, useSignMessage } from 'wagmi'
 
@@ -20,6 +19,7 @@ const UserProvider: React.FC<Props> = ({ children }) => {
   const [nonce, setNonce] = useState(-1)
   const toast = useToast()
   const [error, setError] = useState('')
+  const [isAdmin, setIsAdmin] = useState(false)
   const { signMessageAsync } = useSignMessage({
     message: '',
   })
@@ -42,6 +42,8 @@ const UserProvider: React.FC<Props> = ({ children }) => {
         setJWT(jwt)
       } else {
         setNonce(res[0].nonce)
+        console.log(res[0])
+        setIsAdmin(res[0].role !== 'member')
       }
     },
     onDisconnect: async () => {
@@ -159,6 +161,7 @@ const UserProvider: React.FC<Props> = ({ children }) => {
     <UserContext.Provider
       value={{
         jwt,
+        isAdmin,
         onAttendEvent: handleAttendEvent,
         onCreateUser: handleCreateUser,
         onLogInUser: handleLogInUser,

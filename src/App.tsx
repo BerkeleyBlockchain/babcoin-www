@@ -12,6 +12,7 @@ import Event from 'views/Event'
 import Home from 'views/Home'
 import Onboarding from 'views/Onboarding'
 import Peek from 'views/Peek'
+import NewEvent from 'views/NewEvent'
 
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
@@ -33,6 +34,7 @@ export const App = () => {
           <Route path="peek" element={<Outlet />}>
             <Route path=":address" element={<Peek />} />
           </Route>
+          <Route path="newevent" element={<NewEvent />} />
           <Route path="onboarding" element={<Onboarding />} />
         </Route>
       </Routes>

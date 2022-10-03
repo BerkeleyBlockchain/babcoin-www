@@ -32,7 +32,12 @@ export interface Event {
   _id: number
 }
 
-export type EventType = 'clubcensus' | 'allhands' | 'external'
+export type EventType =
+  | 'clubcensus'
+  | 'allhands'
+  | 'external'
+  | 'social'
+  | 'other'
 
 export interface IdToEventMap {
   [key: string]: Event
