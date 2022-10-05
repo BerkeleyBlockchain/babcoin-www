@@ -58,7 +58,6 @@ const Event = () => {
   })
   const dateString = `${date.getMonth() + 1}/${date.getDate()}`
   const timeString = formatter.format(date)
-  const pm = date.getHours() >= 12
 
   return (
     <Flex

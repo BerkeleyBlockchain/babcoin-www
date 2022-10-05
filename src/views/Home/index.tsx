@@ -31,15 +31,17 @@ const Home = () => {
           justifyContent="space-between"
         >
           <Stack gap="12px">
-            {Object.values(events).map((event, id) => (
-              <EventRow
-                location={event.location}
-                name={event['name']}
-                timestamp={event.startTimestamp}
-                id={event._id}
-                key={id}
-              />
-            ))}
+            {Object.values(events)
+              .sort((a, b) => b.startTimestamp - a.startTimestamp)
+              .map((event, id) => (
+                <EventRow
+                  location={event.location}
+                  name={event['name']}
+                  timestamp={event.startTimestamp}
+                  id={event._id}
+                  key={id}
+                />
+              ))}
           </Stack>
         </Flex>
       </Flex>
