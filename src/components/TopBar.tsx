@@ -57,6 +57,9 @@ const TopBar = () => {
                 <MenuItem onClick={() => navigate('/dashboard')} bg="none">
                   Dashboard
                 </MenuItem>
+                <MenuItem onClick={() => navigate('/leaderboard')} bg="none">
+                  Leaderboard
+                </MenuItem>
                 {isAdmin && (
                   <MenuItem onClick={() => navigate('/newevent')} bg="none">
                     Create New Event

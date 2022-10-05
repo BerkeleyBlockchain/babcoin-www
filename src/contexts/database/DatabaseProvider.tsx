@@ -15,6 +15,7 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
   const [attendedEvents, setAttendedEvents] = useState<AttendedEvents[]>([])
   const [events, setEvents] = useState<IdToEventMap>({})
   const [requirements, setRequirements] = useState<Requirement[]>([])
+  const [scores, setScores] = useState([])
 
   const address = useAccount().address
 
@@ -48,6 +49,11 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
     setRequirements(res)
   }, [])
 
+  const handleFetchScores = useCallback(async () => {
+    const res = await fetch(`${BASE_URL}/user/scores`).then((res) => res.json())
+    setScores(res)
+  }, [])
+
   useEffect(() => {
     handleFetchAttendedEvents()
   }, [handleFetchAttendedEvents])
@@ -66,7 +72,9 @@ const DatabaseProvider: React.FC<Props> = ({ children }) => {
         attendedEvents,
         events,
         requirements,
+        scores,
         onFetchAttendedEvents: handleFetchAttendedEvents,
+        onFetchScores: handleFetchScores,
       }}
     >
       {children}

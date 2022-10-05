@@ -13,6 +13,7 @@ import Home from 'views/Home'
 import Onboarding from 'views/Onboarding'
 import Peek from 'views/Peek'
 import NewEvent from 'views/NewEvent'
+import Leaderboard from 'views/Leaderboard'
 
 export const App = () => {
   const isMobile = ismobilejs(window.navigator).any
@@ -36,6 +37,7 @@ export const App = () => {
           </Route>
           <Route path="newevent" element={<NewEvent />} />
           <Route path="onboarding" element={<Onboarding />} />
+          <Route path="leaderboard" element={<Leaderboard />} />
         </Route>
       </Routes>
     )
