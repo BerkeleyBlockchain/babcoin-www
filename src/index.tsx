@@ -23,7 +23,7 @@ import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
 
 const { chains, provider } = configureChains(
-  [chain.polygonMumbai],
+  [chain.polygon],
   [alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }), publicProvider()],
 )
 
