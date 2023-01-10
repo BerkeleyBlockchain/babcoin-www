@@ -11,20 +11,23 @@ import {
   MenuItem,
   MenuList,
   Text,
+  Button,
 } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { FiMenu } from 'react-icons/fi'
+import { FiMenu, FiChevronDown } from 'react-icons/fi'
 import { useAccount } from 'wagmi'
 
 // @ts-ignore
 import { ReactComponent as Logo } from 'assets/logo.svg'
 import useUser from 'contexts/user/useUser'
+import useDatabase from 'contexts/database/useDatabase'
 
 const TopBar = () => {
   const { status } = useAccount()
   const { isAdmin } = useUser()
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const { semester, onSetSemester } = useDatabase()
 
   const shouldRender = pathname === '/onboarding' || status === 'connected'
 
@@ -43,30 +46,49 @@ const TopBar = () => {
             </Heading>
           </Flex>
           {pathname !== '/onboarding' ? (
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Options"
-                icon={<Icon as={FiMenu} />}
-                variant="ghost"
-              />
-              <MenuList bg="#fecb33" color="black">
-                <MenuItem onClick={() => navigate('/')} bg="none">
-                  Home
-                </MenuItem>
-                <MenuItem onClick={() => navigate('/dashboard')} bg="none">
-                  Dashboard
-                </MenuItem>
-                <MenuItem onClick={() => navigate('/leaderboard')} bg="none">
-                  Leaderboard
-                </MenuItem>
-                {isAdmin && (
-                  <MenuItem onClick={() => navigate('/newevent')} bg="none">
-                    Create New Event
+            <>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  aria-label="Options"
+                  rightIcon={<FiChevronDown />}
+                  variant="ghost"
+                >
+                  {semester}
+                </MenuButton>
+                <MenuList bg="#fecb33" color="black">
+                  {['Sp23', 'Fa22'].map((semester) => (
+                    <MenuItem onClick={() => onSetSemester(semester)} bg="none">
+                      {semester}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </Menu>
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<Icon as={FiMenu} />}
+                  variant="ghost"
+                />
+                <MenuList bg="#fecb33" color="black">
+                  <MenuItem onClick={() => navigate('/')} bg="none">
+                    Home
                   </MenuItem>
-                )}
-              </MenuList>
-            </Menu>
+                  <MenuItem onClick={() => navigate('/dashboard')} bg="none">
+                    Dashboard
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate('/leaderboard')} bg="none">
+                    Leaderboard
+                  </MenuItem>
+                  {isAdmin && (
+                    <MenuItem onClick={() => navigate('/newevent')} bg="none">
+                      Create New Event
+                    </MenuItem>
+                  )}
+                </MenuList>
+              </Menu>
+            </>
           ) : null}
         </Flex>
       </Box>
